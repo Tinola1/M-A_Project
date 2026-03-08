@@ -50,6 +50,15 @@
     .card h3 { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 1.25rem; color: var(--text); }
     .card p { font-size: 0.68rem; color: var(--muted); margin-top: 0.5rem; line-height: 1.9; }
 
+    /* TASK VIDEO GRID */
+    .task-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+    .task-card { background: var(--surface); border: 1px solid var(--border); padding: 1.5rem; transition: background 0.2s; }
+    .task-card:hover { background: #1d1d1d; }
+    .task-card-num { font-size: 0.58rem; letter-spacing: 0.18em; color: var(--accent); margin-bottom: 0.6rem; }
+    .task-card h3 { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 1.15rem; color: var(--text); margin-bottom: 1rem; }
+    .task-video { position: relative; width: 100%; padding-bottom: 56.25%; background: #0a0a0a; }
+    .task-video iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
     footer { border-top: 1px solid var(--border); padding: 1.8rem 4rem; display: flex; justify-content: space-between; align-items: center; }
     footer span { font-size: 0.62rem; letter-spacing: 0.1em; color: var(--muted); }
     .accent { color: var(--accent); }
@@ -105,6 +114,38 @@
 <section id="tasks">
   <h2>Technical <span>Tasks</span></h2>
   <p>Step-by-step walkthroughs of system administration tasks, configurations, troubleshooting, and maintenance procedures across Windows environments.</p>
+  <div class="task-grid">
+    <div class="task-card">
+      <div class="task-card-num">01 — STORAGE</div>
+      <h3>RAID Setup</h3>
+      <div class="task-video"><iframe src="https://www.youtube.com/embed/i_UFfkvNTMo" title="RAID Setup" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div>
+    </div>
+    <div class="task-card">
+      <div class="task-card-num">02 — SERVER ROLES</div>
+      <h3>Application & Web Server</h3>
+      <div class="task-video"><iframe src="https://www.youtube.com/embed/P7UgEq-Xov0" title="Application and Web Server" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div>
+    </div>
+    <div class="task-card">
+      <div class="task-card-num">03 — NETWORKING</div>
+      <h3>DNS Server</h3>
+      <div class="task-video"><iframe src="https://www.youtube.com/embed/XKRCXmFvNzo" title="DNS Server" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div>
+    </div>
+    <div class="task-card">
+      <div class="task-card-num">04 — FILE MANAGEMENT</div>
+      <h3>File Services</h3>
+      <div class="task-video"><iframe src="https://www.youtube.com/embed/NZk9vHzzqOs" title="File Services" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div>
+    </div>
+    <div class="task-card">
+      <div class="task-card-num">05 — DIRECTORY</div>
+      <h3>Active Directory Domain Services</h3>
+      <div class="task-video"><iframe src="https://www.youtube.com/embed/tz7ujRNcFsE" title="Active Directory Domain Services" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div>
+    </div>
+    <div class="task-card">
+      <div class="task-card-num">06 — DOMAIN</div>
+      <h3>DHCP Role & Joining Workstations in Domain</h3>
+      <div class="task-video"><iframe src="https://www.youtube.com/embed/-D_tynalzb4" title="DHCP Role and Joining Workstations in Domain" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div>
+    </div>
+  </div>
 </section>
 
 <section id="case-studies">

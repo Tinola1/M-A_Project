@@ -17,12 +17,9 @@
   --mid:#2e2c28;
 }
 body{
-  background:var(--bg);
-  color:var(--ink);
-  font-family:'DM Mono',monospace;
-  font-weight:300;
-  min-height:100vh;
-  overflow-x:hidden;
+  background:var(--bg);color:var(--ink);
+  font-family:'DM Mono',monospace;font-weight:300;
+  min-height:100vh;overflow-x:hidden;
 }
 body::before{
   content:'';position:fixed;inset:0;
@@ -35,8 +32,7 @@ body::before{
 nav{
   position:fixed;top:0;left:0;right:0;z-index:100;
   display:flex;justify-content:space-between;align-items:center;
-  padding:1.1rem 3rem;
-  border-bottom:1px solid var(--ink);
+  padding:1.1rem 3rem;border-bottom:1px solid var(--ink);
   background:var(--bg);
   opacity:0;transform:translateY(-10px);
   transition:opacity 0.5s ease,transform 0.5s ease;
@@ -56,6 +52,7 @@ nav.visible{opacity:1;transform:translateY(0);}
 .nav-links a:hover{color:var(--ink);}
 .nav-links a.active{color:var(--bg);background:var(--ink);}
 
+/* ── HERO ── */
 .hero{
   position:relative;z-index:2;min-height:100vh;
   padding:10rem 3rem 4rem;
@@ -92,6 +89,7 @@ nav.visible{opacity:1;transform:translateY(0);}
   border-left:1px solid var(--border);padding-left:1.5rem;
 }
 
+/* ── FRAMES ── */
 .frames-section{position:relative;z-index:2;padding:5rem 3rem;border-top:1px solid var(--border);}
 .section-label{
   font-size:0.55rem;letter-spacing:0.28em;text-transform:uppercase;
@@ -118,6 +116,7 @@ nav.visible{opacity:1;transform:translateY(0);}
 .frame-cell-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
 .frame-sketch{opacity:0.22;}
 
+/* ── INFO ── */
 .info-row{
   position:relative;z-index:2;padding:3rem;border-top:1px solid var(--border);
   display:grid;grid-template-columns:repeat(3,1fr);
@@ -131,6 +130,78 @@ nav.visible{opacity:1;transform:translateY(0);}
 .info-stat label{display:block;font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;}
 .info-stat .val{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:var(--ink);}
 
+/* ── WEEK PROGRESS SECTIONS ── */
+.week-section{
+  position:relative;z-index:2;
+  padding:5rem 3rem;
+  border-top:1px solid var(--border);
+  opacity:0;transform:translateY(24px);
+  transition:opacity 0.8s ease,transform 0.8s ease;
+}
+.week-section.visible{opacity:1;transform:translateY(0);}
+
+.week-header{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  align-items:baseline;
+  gap:2rem;
+  margin-bottom:2.5rem;
+}
+.week-badge{
+  font-size:0.52rem;letter-spacing:0.24em;text-transform:uppercase;
+  color:var(--bg);background:var(--accent);
+  padding:0.3rem 0.8rem;
+  white-space:nowrap;align-self:center;
+}
+.week-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.6rem,3.5vw,2.6rem);
+  font-weight:300;color:var(--ink);
+}
+.week-title span{
+  font-size:0.6rem;
+  font-family:'DM Mono',monospace;
+  color:var(--muted);
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  margin-left:1.5rem;
+  vertical-align:middle;
+}
+
+/* 16:9 embed */
+.video-wrap{
+  position:relative;width:100%;padding-bottom:56.25%;
+  background:#000;border:1px solid var(--border);overflow:hidden;
+}
+.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
+
+/* Credits flush under video */
+.credits-strip{
+  margin-top:1px;
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:1px;background:var(--border);
+  border:1px solid var(--border);border-top:none;
+}
+.credit-block{background:var(--bg);padding:1.5rem 1.8rem;}
+.credit-block label{
+  display:block;font-size:0.48rem;letter-spacing:0.22em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;
+}
+.credit-block .credit-val{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.05rem;font-weight:400;color:var(--ink);line-height:1.4;
+}
+.credit-block .credit-note{margin-top:0.4rem;font-size:0.55rem;color:var(--muted);line-height:1.7;}
+.credit-link{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  font-size:0.52rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;
+  margin-top:0.7rem;border-bottom:1px solid var(--border);padding-bottom:0.15rem;
+  transition:color 0.2s ease,border-color 0.2s ease;
+}
+.credit-link:hover{color:var(--ink);border-color:var(--muted);}
+
+/* ── STATUS ── */
 .status-section{
   position:relative;z-index:2;padding:5rem 3rem;border-top:1px solid var(--border);
   display:flex;align-items:flex-start;gap:6rem;
@@ -149,77 +220,7 @@ nav.visible{opacity:1;transform:translateY(0);}
 }
 .status-text p{font-size:0.68rem;line-height:1.9;color:var(--muted);max-width:380px;}
 
-/* ── VIDEO & CREDITS ── */
-.video-section{
-  position:relative;z-index:2;
-  padding:5rem 3rem;
-  border-top:1px solid var(--border);
-  opacity:0;transform:translateY(24px);
-  transition:opacity 0.8s ease,transform 0.8s ease;
-}
-.video-section.visible{opacity:1;transform:translateY(0);}
-
-.video-header{
-  display:flex;align-items:baseline;justify-content:space-between;
-  margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem;
-}
-.video-header-label{
-  font-size:0.55rem;letter-spacing:0.28em;
-  text-transform:uppercase;color:var(--muted);
-}
-.video-header-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(1.4rem,3vw,2.2rem);font-weight:300;color:var(--ink);
-}
-
-/* 16:9 responsive embed */
-.video-wrap{
-  position:relative;width:100%;padding-bottom:56.25%;
-  background:#000;
-  border:1px solid var(--border);
-  overflow:hidden;
-}
-.video-wrap iframe{
-  position:absolute;inset:0;
-  width:100%;height:100%;
-  border:none;
-}
-
-/* Credits */
-.credits-strip{
-  margin-top:1px;
-  display:grid;grid-template-columns:1fr 1fr 1fr;
-  gap:1px;background:var(--border);
-  border:1px solid var(--border);
-  border-top:none;
-}
-.credit-block{
-  background:var(--bg);
-  padding:1.6rem 1.8rem;
-}
-.credit-block label{
-  display:block;font-size:0.48rem;letter-spacing:0.22em;
-  text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;
-}
-.credit-block .credit-val{
-  font-family:'Cormorant Garamond',serif;
-  font-size:1.05rem;font-weight:400;color:var(--ink);line-height:1.4;
-}
-.credit-block .credit-note{
-  margin-top:0.4rem;
-  font-size:0.55rem;color:var(--muted);line-height:1.7;
-}
-.credit-link{
-  display:inline-flex;align-items:center;gap:0.4rem;
-  font-size:0.52rem;letter-spacing:0.14em;text-transform:uppercase;
-  color:var(--muted);text-decoration:none;
-  margin-top:0.7rem;
-  border-bottom:1px solid var(--border);
-  padding-bottom:0.15rem;
-  transition:color 0.2s ease,border-color 0.2s ease;
-}
-.credit-link:hover{color:var(--ink);border-color:var(--muted);}
-
+/* ── FOOTER ── */
 footer{
   position:relative;z-index:2;padding:1.5rem 3rem;
   border-top:1px solid var(--ink);
@@ -237,8 +238,9 @@ footer.visible{opacity:1;transform:translateY(0);}
   .info-stat{border-right:none;border-bottom:1px solid var(--border);padding-left:0;}
   .status-section{flex-direction:column;gap:2rem;}
   .credits-strip{grid-template-columns:1fr;}
+  .week-header{grid-template-columns:1fr;gap:0.8rem;}
   nav{padding:1rem 1.5rem;}
-  .frames-section,.status-section,.info-row,.video-section,footer{padding-left:1.5rem;padding-right:1.5rem;}
+  .frames-section,.status-section,.info-row,.week-section,footer{padding-left:1.5rem;padding-right:1.5rem;}
 }
 </style>
 </head>
@@ -341,23 +343,52 @@ footer.visible{opacity:1;transform:translateY(0);}
   <div class="info-stat"><label>Project</label><div class="val">01</div></div>
 </div>
 
-<div class="status-section" id="status-section">
-  <span class="status-tag">In Development</span>
-  <div class="status-text">
-    <h2>Frames coming soon.</h2>
-    <p>The rotoscope animation gallery is being assembled frame by frame. Return to see the full sequence when it's ready.</p>
+<!-- ── WEEK 1 PROGRESS ── -->
+<div class="week-section" id="week1-section">
+  <div class="week-header">
+    <span class="week-badge">Week 1</span>
+    <div class="week-title">Progress Update <span>/ Rotoscoping</span></div>
+  </div>
+
+  <div class="video-wrap">
+    <iframe
+      src="https://www.youtube.com/embed/WEnUM7BWVTI?rel=0&modestbranding=1&color=white"
+      title="Rotoscope — Week 1 Progress"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <div class="credits-strip">
+    <div class="credit-block">
+      <label>Progress</label>
+      <div class="credit-val">Week 1</div>
+      <div class="credit-note">First week of rotoscoping — initial frames and motion study.</div>
+      <a class="credit-link" href="https://youtu.be/WEnUM7BWVTI?si=xFnQ2I1gF-w9iEMd" target="_blank" rel="noopener noreferrer">
+        <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/></svg>
+        View on YouTube
+      </a>
+    </div>
+    <div class="credit-block">
+      <label>Stage</label>
+      <div class="credit-val">Early Draft</div>
+      <div class="credit-note">Establishing line weight, movement timing, and figure study from reference.</div>
+    </div>
+    <div class="credit-block">
+      <label>Artist</label>
+      <div class="credit-val">Ybrahim A. Calvo</div>
+      <div class="credit-note">Frame-by-frame rotoscoping and digital line work.</div>
+    </div>
   </div>
 </div>
 
-<!-- ── VIDEO & CREDITS ── -->
-<div class="video-section" id="video-section">
-
-  <div class="video-header">
-    <span class="video-header-label">Reference Footage</span>
-    <span class="video-header-title">Source Video</span>
+<!-- ── SOURCE REFERENCE ── -->
+<div class="week-section" id="source-section">
+  <div class="week-header">
+    <span class="week-badge" style="background:var(--mid);color:var(--muted);">Source</span>
+    <div class="week-title">Reference Footage <span>/ Original Video</span></div>
   </div>
 
-  <!-- Embedded YouTube player — plays inline, no redirect -->
   <div class="video-wrap">
     <iframe
       src="https://www.youtube.com/embed/XmsuKrjB3SI?rel=0&modestbranding=1&color=white"
@@ -367,16 +398,13 @@ footer.visible{opacity:1;transform:translateY(0);}
     </iframe>
   </div>
 
-  <!-- Credits flush under video -->
   <div class="credits-strip">
     <div class="credit-block">
       <label>Video Credit</label>
       <div class="credit-val">Original Creator</div>
       <div class="credit-note">Source footage used as rotoscoping reference. All rights belong to the original owner.</div>
       <a class="credit-link" href="https://youtu.be/XmsuKrjB3SI?si=rHhlIJDdUa12ypTf" target="_blank" rel="noopener noreferrer">
-        <svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/>
-        </svg>
+        <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/></svg>
         View on YouTube
       </a>
     </div>
@@ -391,7 +419,14 @@ footer.visible{opacity:1;transform:translateY(0);}
       <div class="credit-note">Frame-by-frame drawing and digital line work over the reference footage.</div>
     </div>
   </div>
+</div>
 
+<div class="status-section" id="status-section">
+  <span class="status-tag">In Development</span>
+  <div class="status-text">
+    <h2>More weeks coming soon.</h2>
+    <p>The full rotoscope sequence is being built week by week. Check back for Week 2 and beyond as the animation progresses.</p>
+  </div>
 </div>
 
 <footer id="footer">
@@ -411,9 +446,9 @@ const obs=new IntersectionObserver((entries)=>{
   entries.forEach(e=>{
     if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}
   });
-},{threshold:0.1});
+},{threshold:0.08});
 
-['frames-label','frame-grid','info-row','status-section','video-section','footer'].forEach(id=>{
+['frames-label','frame-grid','info-row','week1-section','source-section','status-section','footer'].forEach(id=>{
   const el=document.getElementById(id);if(el)obs.observe(el);
 });
 </script>

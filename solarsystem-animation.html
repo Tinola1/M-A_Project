@@ -31,7 +31,6 @@ body {
   pointer-events: none;
   z-index: 0;
 }
-/* ── Shared nav ── */
 nav {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -78,7 +77,6 @@ nav.visible { opacity: 1; transform: translateY(0); }
 .nav-links a:hover { color: var(--accent2); }
 .nav-links a.active { color: var(--accent2); }
 
-/* ── Hero ── */
 .hero {
   min-height: 100vh;
   padding: 8rem 4rem 4rem;
@@ -131,7 +129,6 @@ nav.visible { opacity: 1; transform: translateY(0); }
 }
 .hero-sub.visible { opacity: 1; transform: translateY(0); }
 
-/* ── Section Header ── */
 .section-header {
   position: relative;
   z-index: 2;
@@ -161,7 +158,6 @@ nav.visible { opacity: 1; transform: translateY(0); }
 }
 .section-header p.visible { opacity: 1; transform: translateY(0); }
 
-/* ── Planet Cards Grid ── */
 .planets-grid {
   position: relative;
   z-index: 2;
@@ -222,7 +218,8 @@ nav.visible { opacity: 1; transform: translateY(0); }
   position: relative;
   background: #000;
 }
-.planet-visual video {
+.planet-visual video,
+.planet-visual img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -255,7 +252,6 @@ nav.visible { opacity: 1; transform: translateY(0); }
   padding-top: 1.2rem;
 }
 
-/* ── Stats Overview ── */
 .stats-overview {
   position: relative;
   z-index: 2;
@@ -298,6 +294,7 @@ footer {
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 footer.visible { opacity: 1; transform: translateY(0); }
+
 @media (max-width: 768px) {
   .planets-grid { grid-template-columns: 1fr; padding: 3rem 2rem 6rem; }
   .hero { padding: 6rem 2rem 3rem; }
@@ -345,8 +342,7 @@ footer.visible { opacity: 1; transform: translateY(0); }
     </div>
     <div class="planet-visual">
       <video autoplay loop muted playsinline>
-        <source src="Planets/Sun.mp4" type="video/mp4">
-        Your browser does not support the video tag.
+        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Sun.mp4" type="video/mp4">
       </video>
     </div>
     <div class="planet-stats">
@@ -366,8 +362,7 @@ footer.visible { opacity: 1; transform: translateY(0); }
     </div>
     <div class="planet-visual">
       <video autoplay loop muted playsinline>
-        <source src="Planets/Mercury.mp4" type="video/mp4">
-        Your browser does not support the video tag.
+        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Mercury.mp4" type="video/mp4">
       </video>
     </div>
     <div class="planet-stats">
@@ -387,8 +382,7 @@ footer.visible { opacity: 1; transform: translateY(0); }
     </div>
     <div class="planet-visual">
       <video autoplay loop muted playsinline>
-        <source src="Planets/Venus.mp4" type="video/mp4">
-        Your browser does not support the video tag.
+        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Venus.mp4" type="video/mp4">
       </video>
     </div>
     <div class="planet-stats">
@@ -408,8 +402,7 @@ footer.visible { opacity: 1; transform: translateY(0); }
     </div>
     <div class="planet-visual">
       <video autoplay loop muted playsinline>
-        <source src="Planets/Earth.mp4" type="video/mp4">
-        Your browser does not support the video tag.
+        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Earth.mp4" type="video/mp4">
       </video>
     </div>
     <div class="planet-stats">
@@ -429,8 +422,7 @@ footer.visible { opacity: 1; transform: translateY(0); }
     </div>
     <div class="planet-visual">
       <video autoplay loop muted playsinline>
-        <source src="Planets/Mars.mp4" type="video/mp4">
-        Your browser does not support the video tag.
+        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Mars.mp4" type="video/mp4">
       </video>
     </div>
     <div class="planet-stats">
@@ -450,8 +442,7 @@ footer.visible { opacity: 1; transform: translateY(0); }
     </div>
     <div class="planet-visual">
       <video autoplay loop muted playsinline>
-        <source src="Planets/Jupiter.mp4" type="video/mp4">
-        Your browser does not support the video tag.
+        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Jupiter.mp4" type="video/mp4">
       </video>
     </div>
     <div class="planet-stats">
@@ -463,17 +454,14 @@ footer.visible { opacity: 1; transform: translateY(0); }
     <p class="planet-description">The largest planet in our solar system, Jupiter's Great Red Spot is a storm larger than Earth that has raged for centuries.</p>
   </div>
 
-  <!-- Saturn -->
+  <!-- Saturn (no video uploaded — using NASA image) -->
   <div class="planet-card">
     <div class="planet-header">
       <h3 class="planet-name">Saturn</h3>
       <span class="planet-type">Gas Giant</span>
     </div>
     <div class="planet-visual">
-      <video autoplay loop muted playsinline>
-        <source src="Planets/Saturn.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
+      <img src="https://science.nasa.gov/wp-content/uploads/2023/06/saturn-equinox-pia11141.jpg" alt="Saturn">
     </div>
     <div class="planet-stats">
       <div class="planet-stat"><label>Age</label><div class="value">4.5 billion years</div></div>
@@ -492,8 +480,7 @@ footer.visible { opacity: 1; transform: translateY(0); }
     </div>
     <div class="planet-visual">
       <video autoplay loop muted playsinline>
-        <source src="Planets/Uranus.mp4" type="video/mp4">
-        Your browser does not support the video tag.
+        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Uranus.mp4" type="video/mp4">
       </video>
     </div>
     <div class="planet-stats">
@@ -513,8 +500,7 @@ footer.visible { opacity: 1; transform: translateY(0); }
     </div>
     <div class="planet-visual">
       <video autoplay loop muted playsinline>
-        <source src="Planets/Neptune.mp4" type="video/mp4">
-        Your browser does not support the video tag.
+        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Neptune.mp4" type="video/mp4">
       </video>
     </div>
     <div class="planet-stats">
@@ -545,7 +531,6 @@ footer.visible { opacity: 1; transform: translateY(0); }
 const canvas = document.getElementById('stars-canvas');
 const ctx = canvas.getContext('2d');
 let stars = [], tick = 0;
-
 function resize() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
@@ -591,25 +576,15 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('hero-sub').classList.add('visible');
 });
 
-/* Scroll-triggered reveal animations */
+/* Scroll-triggered reveal */
 const obs = new IntersectionObserver((entries) => {
   entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      obs.unobserve(e.target);
-    }
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
   });
 }, { threshold: 0.15 });
-
-['section-title', 'section-desc'].forEach(id => {
-  const el = document.getElementById(id);
-  if (el) obs.observe(el);
-});
+['section-title', 'section-desc'].forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
 document.querySelectorAll('.planet-card').forEach(card => obs.observe(card));
-['stats-overview', 'footer'].forEach(id => {
-  const el = document.getElementById(id);
-  if (el) obs.observe(el);
-});
+['stats-overview', 'footer'].forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
 </script>
 </body>
 </html>

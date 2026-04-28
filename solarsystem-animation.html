@@ -622,6 +622,25 @@ footer.visible { opacity: 1; transform: translateY(0); }
     <p class="planet-description">The outermost planet features the fastest winds in the solar system and a deep blue color from methane in its atmosphere.</p>
   </div>
 
+  <div class="planet-card">
+    <div class="planet-header">
+      <h3 class="planet-name">Pluto</h3>
+      <span class="planet-type">Dwarf Planet</span>
+    </div>
+    <div class="planet-visual">
+      <video autoplay loop muted playsinline>
+        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Pluto.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="planet-stats">
+      <div class="planet-stat"><label>Age</label><div class="value" id="pluto-age">4.5 billion years</div></div>
+      <div class="planet-stat"><label>Revolutions</label><div class="value" id="pluto-rev">—</div></div>
+      <div class="planet-stat"><label>Orbital Period</label><div class="value" id="pluto-orb">248 Earth years</div></div>
+      <div class="planet-stat"><label>Distance from Sun</label><div class="value">5.91 billion km</div></div>
+    </div>
+    <p class="planet-description">Once classified as the ninth planet, this icy dwarf world has a heart-shaped glacier and orbits in the distant Kuiper Belt beyond Neptune.</p>
+  </div>
+
 </div>
 
 <div class="stats-overview" id="stats-overview">
@@ -647,6 +666,7 @@ const planets = {
   saturn:  { orbitalYears: 29.46,            orbLabel: '29.46 Earth years' },
   uranus:  { orbitalYears: 84.01,            orbLabel: '84 Earth years' },
   neptune: { orbitalYears: 164.8,            orbLabel: '164.8 Earth years' },
+  pluto:   { orbitalYears: 248,              orbLabel: '248 Earth years' },
 };
 
 function flash(el) {

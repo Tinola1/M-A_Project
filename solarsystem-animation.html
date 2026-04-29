@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Solar System — Ybrahim</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -25,384 +28,293 @@ body {
   overflow-x: hidden;
 }
 #stars-canvas {
-  position: fixed;
-  top: 0; left: 0;
+  position: fixed; top: 0; left: 0;
   width: 100%; height: 100%;
-  pointer-events: none;
-  z-index: 0;
+  pointer-events: none; z-index: 0;
 }
 
-/* ── Nav ── */
+/* NAV */
 nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
   padding: 1.3rem 2.5rem;
   border-bottom: 1px solid var(--border);
-  background: rgba(6, 8, 16, 0.88);
+  background: rgba(6,8,16,.88);
   backdrop-filter: blur(14px);
-  opacity: 0;
-  transform: translateY(-20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  opacity: 0; transform: translateY(-20px);
+  transition: opacity .6s ease, transform .6s ease;
 }
 nav.visible { opacity: 1; transform: translateY(0); }
 .nav-brand {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 600;
-  font-size: 1.1rem;
-  text-decoration: none;
-  color: var(--ink);
-  letter-spacing: 0.05em;
+  font-family: 'Cormorant Garamond', serif; font-weight: 600;
+  font-size: 1.1rem; text-decoration: none; color: var(--ink); letter-spacing: .05em;
 }
-.nav-links {
-  display: flex;
-  list-style: none;
-  align-items: center;
-  gap: 0.1rem;
-}
+.nav-links { display: flex; list-style: none; align-items: center; gap: .1rem; }
 .nav-links a {
-  display: inline-block;
-  padding: 0.45rem 0.9rem;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.65rem;
-  font-weight: 300;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
-  text-decoration: none;
-  transition: color 0.2s ease;
-  white-space: nowrap;
+  display: inline-block; padding: .45rem .9rem;
+  font-family: 'DM Mono', monospace; font-size: .65rem; font-weight: 300;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none;
+  transition: color .2s ease; white-space: nowrap;
 }
-.nav-links a:hover { color: var(--accent2); }
-.nav-links a.active { color: var(--accent2); }
+.nav-links a:hover, .nav-links a.active { color: var(--accent2); }
 
-/* ── Hero ── */
+/* HERO */
 .hero {
-  min-height: 100vh;
-  padding: 8rem 4rem 4rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-  z-index: 2;
+  min-height: 100vh; padding: 8rem 4rem 4rem;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative; z-index: 2;
 }
 .page-label {
-  font-size: 0.6rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--accent2);
-  margin-bottom: 1.4rem;
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-  transition-delay: 0.05s;
+  font-size: .6rem; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--accent2); margin-bottom: 1.4rem;
+  opacity: 0; transform: translateY(12px);
+  transition: opacity .7s ease, transform .7s ease; transition-delay: .05s;
 }
 .page-label.visible { opacity: 1; transform: translateY(0); }
-.hero-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(3rem, 8vw, 7rem);
-  color: var(--ink);
-  line-height: 1.05;
-}
+.hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem,8vw,7rem); color: var(--ink); line-height: 1.05; }
 .hero-title em { color: var(--accent2); font-style: italic; }
 .hero-line { display: block; overflow: hidden; }
 .hero-line-inner {
-  display: block;
-  opacity: 0;
-  transform: translateY(100%);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  display: block; opacity: 0; transform: translateY(100%);
+  transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
 }
 .hero-line-inner.visible { opacity: 1; transform: translateY(0); }
-.hero-line:nth-child(1) .hero-line-inner { transition-delay: 0.15s; }
-.hero-line:nth-child(2) .hero-line-inner { transition-delay: 0.32s; }
+.hero-line:nth-child(1) .hero-line-inner { transition-delay: .15s; }
+.hero-line:nth-child(2) .hero-line-inner { transition-delay: .32s; }
 .hero-sub {
-  margin-top: 2rem;
-  font-size: 0.7rem;
-  line-height: 1.9;
-  color: var(--muted);
-  max-width: 480px;
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-  transition-delay: 0.55s;
+  margin-top: 2rem; font-size: .7rem; line-height: 1.9;
+  color: var(--muted); max-width: 480px;
+  opacity: 0; transform: translateY(16px);
+  transition: opacity .8s ease, transform .8s ease; transition-delay: .55s;
 }
 .hero-sub.visible { opacity: 1; transform: translateY(0); }
 
-/* ── Age Calculator ── */
+/* VIDEO SECTION */
+.video-section {
+  position: relative; z-index: 2;
+  padding: 4rem 4rem 5rem;
+  display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
+  border-top: 1px solid var(--border);
+}
+.video-eyebrow {
+  font-size: .6rem; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--accent2);
+  opacity: 0; transform: translateY(12px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.video-eyebrow.visible { opacity: 1; transform: translateY(0); }
+.video-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem,3.5vw,2.6rem); font-weight: 400;
+  color: var(--ink); text-align: center;
+  opacity: 0; transform: translateY(16px);
+  transition: opacity .7s ease, transform .7s ease; transition-delay: .1s;
+}
+.video-heading.visible { opacity: 1; transform: translateY(0); }
+.video-sub {
+  font-size: .65rem; color: var(--muted); text-align: center;
+  line-height: 1.7; max-width: 480px;
+  opacity: 0; transform: translateY(12px);
+  transition: opacity .7s ease, transform .7s ease; transition-delay: .2s;
+}
+.video-sub.visible { opacity: 1; transform: translateY(0); }
+.video-wrapper {
+  width: 100%; max-width: 920px; aspect-ratio: 16/9;
+  border-radius: 8px; overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 0 80px rgba(74,158,255,.07);
+  opacity: 0; transform: translateY(30px);
+  transition: opacity .9s ease, transform .9s ease; transition-delay: .25s;
+}
+.video-wrapper.visible { opacity: 1; transform: translateY(0); }
+.video-wrapper iframe { width: 100%; height: 100%; border: none; display: block; }
+
+/* CALCULATOR */
 .calculator-section {
-  position: relative;
-  z-index: 2;
-  padding: 0 4rem 5rem;
-  display: flex;
-  justify-content: center;
+  position: relative; z-index: 2;
+  padding: 0 4rem 5rem; display: flex; justify-content: center;
 }
 .calculator-box {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 2.5rem 3rem;
-  width: 100%;
-  max-width: 640px;
-  text-align: center;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 2.5rem 3rem;
+  width: 100%; max-width: 640px; text-align: center;
+  opacity: 0; transform: translateY(30px);
+  transition: opacity .7s ease, transform .7s ease;
 }
 .calculator-box.visible { opacity: 1; transform: translateY(0); }
-.calculator-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.4rem;
-  font-weight: 400;
-  color: var(--ink);
-  margin-bottom: 0.4rem;
-}
-.calculator-subtitle {
-  font-size: 0.6rem;
-  letter-spacing: 0.12em;
-  color: var(--muted);
-  text-transform: uppercase;
-  margin-bottom: 1.8rem;
-}
-.calculator-row {
-  display: flex;
-  flex-direction: column; /* Force stack for centering */
-  align-items: center;    /* Center horizontally */
-  gap: 1.2rem;
-  justify-content: center;
-}
-.calc-input-wrap {
-  width: 100%;
-  max-width: 300px;
-  position: relative;
-  text-align: center; /* Centered label and input */
-}
-.calc-input-wrap label {
-  display: block;
-  font-size: 0.55rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--accent2);
-  margin-bottom: 0.5rem;
-}
+.calculator-title { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; color: var(--ink); margin-bottom: .4rem; }
+.calculator-subtitle { font-size: .6rem; letter-spacing: .12em; color: var(--muted); text-transform: uppercase; margin-bottom: 1.8rem; }
+.calculator-row { display: flex; flex-direction: column; align-items: center; gap: 1.2rem; }
+.calc-input-wrap { width: 100%; max-width: 300px; text-align: center; }
+.calc-input-wrap label { display: block; font-size: .55rem; letter-spacing: .15em; text-transform: uppercase; color: var(--accent2); margin-bottom: .5rem; }
 .calc-input {
-  width: 100%;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 0.75rem 1rem;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.85rem;
-  color: var(--ink);
-  outline: none;
-  text-align: center; /* Center the typed value */
-  transition: border-color 0.2s ease;
+  width: 100%; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 4px; padding: .75rem 1rem;
+  font-family: 'DM Mono', monospace; font-size: .85rem; color: var(--ink);
+  outline: none; text-align: center; transition: border-color .2s ease;
 }
 .calc-input:focus { border-color: var(--accent2); }
 .calc-input::placeholder { color: var(--muted); }
 .calc-btn {
-  background: var(--accent2);
-  color: #060810;
-  border: none;
-  border-radius: 4px;
-  padding: 0.75rem 2.5rem;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.65rem;
-  font-weight: 400;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: opacity 0.2s ease, transform 0.15s ease;
-  white-space: nowrap;
+  background: var(--accent2); color: #060810; border: none; border-radius: 4px;
+  padding: .75rem 2.5rem; font-family: 'DM Mono', monospace;
+  font-size: .65rem; font-weight: 400; letter-spacing: .12em; text-transform: uppercase;
+  cursor: pointer; transition: opacity .2s ease, transform .15s ease; white-space: nowrap;
 }
-.calc-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+.calc-btn:hover { opacity: .85; transform: translateY(-1px); }
 .calc-btn:active { transform: translateY(0); }
-.calc-hint {
-  margin-top: 1rem;
-  font-size: 0.58rem;
-  color: var(--muted);
-  letter-spacing: 0.08em;
-}
-.calc-hint span {
-  color: var(--accent2);
-}
+.calc-hint { margin-top: 1rem; font-size: .58rem; color: var(--muted); letter-spacing: .08em; }
+.calc-hint span { color: var(--accent2); }
 
-/* ── Section Header ── */
-.section-header {
-  position: relative;
-  z-index: 2;
-  padding: 4rem 4rem 3rem;
-  border-top: 1px solid var(--border);
-}
+/* SECTION HEADER */
+.section-header { position: relative; z-index: 2; padding: 4rem 4rem 3rem; border-top: 1px solid var(--border); }
 .section-header h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 400;
-  color: var(--accent2);
-  margin-bottom: 0.8rem;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,5vw,3.5rem);
+  font-weight: 400; color: var(--accent2); margin-bottom: .8rem;
+  opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease;
 }
 .section-header h2.visible { opacity: 1; transform: translateY(0); }
 .section-header p {
-  font-size: 0.7rem;
-  line-height: 1.8;
-  color: var(--muted);
-  max-width: 520px;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-  transition-delay: 0.15s;
+  font-size: .7rem; line-height: 1.8; color: var(--muted); max-width: 520px;
+  opacity: 0; transform: translateY(20px);
+  transition: opacity .7s ease, transform .7s ease; transition-delay: .15s;
 }
 .section-header p.visible { opacity: 1; transform: translateY(0); }
 
-/* ── Planet Cards Grid ── */
+/* PLANETS GRID */
 .planets-grid {
-  position: relative;
-  z-index: 2;
-  padding: 4rem 4rem 8rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
+  position: relative; z-index: 2; padding: 4rem 4rem 8rem;
+  display: grid; grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
+  gap: 2rem; max-width: 1400px; margin: 0 auto;
 }
 .planet-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 2rem;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.3s ease;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; padding: 2rem;
+  opacity: 0; transform: translateY(40px);
+  transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1), border-color .3s ease;
 }
 .planet-card.visible { opacity: 1; transform: translateY(0); }
 .planet-card:hover { border-color: var(--accent2); }
 .planet-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border);
 }
-.planet-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.6rem;
-  font-weight: 400;
-  color: var(--accent2);
-}
-.planet-type {
-  font-size: 0.58rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
+.planet-name { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; color: var(--accent2); }
+.planet-type { font-size: .58rem; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); }
+
+/* PLANET VISUAL */
 .planet-visual {
-  width: 100%;
-  height: 280px;
-  margin-bottom: 1.5rem;
-  border-radius: 4px;
-  overflow: hidden;
-  position: relative;
-  background: #000;
+  width: 100%; height: 280px; margin-bottom: 1.5rem;
+  border-radius: 4px; overflow: hidden; position: relative; background: #000;
 }
 .planet-visual video,
-.planet-visual img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+.planet-visual img.tex {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  position: absolute; top: 0; left: 0; transition: opacity .4s ease;
 }
-.planet-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.2rem;
-  margin-bottom: 1.5rem;
-}
-.planet-stat label {
-  display: block;
-  font-size: 0.56rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--accent2);
-  margin-bottom: 0.3rem;
-}
-.planet-stat .value {
-  font-size: 0.75rem;
-  color: var(--ink);
-  font-weight: 400;
-  transition: color 0.3s ease;
-}
-.planet-stat .value.updated {
-  color: var(--accent2);
-}
-.planet-description {
-  font-size: 0.68rem;
-  line-height: 1.7;
-  color: var(--muted);
-  border-top: 1px solid var(--border);
-  padding-top: 1.2rem;
-}
+.planet-visual img.tex { opacity: 0; }
+.planet-visual.show-tex video { opacity: 0; }
+.planet-visual.show-tex img.tex { opacity: 1; }
 
-/* ── Stats Overview ── */
+/* toggle */
+.view-toggle { position: absolute; bottom: 10px; right: 10px; z-index: 10; display: flex; gap: .35rem; }
+.view-toggle button {
+  background: rgba(6,8,16,.82); border: 1px solid rgba(255,255,255,.12);
+  color: var(--muted); font-family: 'DM Mono', monospace;
+  font-size: .48rem; letter-spacing: .1em; text-transform: uppercase;
+  padding: .28rem .6rem; border-radius: 3px; cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: color .2s, border-color .2s, background .2s;
+}
+.view-toggle button.active,
+.view-toggle button:hover { color: var(--accent2); border-color: rgba(74,158,255,.5); background: rgba(74,158,255,.1); }
+
+/* tex loading */
+.tex-loader {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: .5rem;
+  color: var(--muted); font-size: .55rem; letter-spacing: .1em;
+  opacity: 0; pointer-events: none; transition: opacity .3s;
+}
+.planet-visual.show-tex .tex-loader { opacity: 1; }
+.planet-visual.show-tex.tex-ok .tex-loader { opacity: 0; }
+.spin {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid var(--border); border-top-color: var(--accent2);
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* STATS */
+.planet-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.5rem; }
+.planet-stat label { display: block; font-size: .56rem; letter-spacing: .15em; text-transform: uppercase; color: var(--accent2); margin-bottom: .3rem; }
+.planet-stat .value { font-size: .75rem; color: var(--ink); font-weight: 400; transition: color .3s ease; }
+.planet-stat .value.updated { color: var(--accent2); }
+.planet-description { font-size: .68rem; line-height: 1.7; color: var(--muted); border-top: 1px solid var(--border); padding-top: 1.2rem; }
+
+/* STATS OVERVIEW */
 .stats-overview {
-  position: relative;
-  z-index: 2;
-  padding: 3rem 4rem;
+  position: relative; z-index: 2; padding: 3rem 4rem;
   border-top: 1px solid var(--border);
-  display: flex;
-  gap: 3rem;
-  align-items: center;
-  flex-wrap: wrap;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  display: flex; gap: 3rem; align-items: center; flex-wrap: wrap;
+  opacity: 0; transform: translateY(20px); transition: opacity .7s ease, transform .7s ease;
 }
 .stats-overview.visible { opacity: 1; transform: translateY(0); }
-.stat-item label {
-  display: block;
-  font-size: 0.55rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--accent2);
-  margin-bottom: 0.4rem;
+.stat-item label { display: block; font-size: .55rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent2); margin-bottom: .4rem; }
+.stat-item .val { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--ink); }
+
+/* CODE SECTION */
+.code-section { position: relative; z-index: 2; border-top: 1px solid var(--border); padding: 5rem 4rem 6rem; }
+.code-intro { margin-bottom: 3rem; opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+.code-intro.visible { opacity: 1; transform: translateY(0); }
+.code-eyebrow { font-size: .6rem; letter-spacing: .22em; text-transform: uppercase; color: var(--accent2); margin-bottom: .9rem; }
+.code-intro h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem,4vw,3rem); font-weight: 400; color: var(--ink); margin-bottom: .7rem; }
+.code-intro p { font-size: .7rem; line-height: 1.85; color: var(--muted); max-width: 580px; }
+
+.code-outer { opacity: 0; transform: translateY(30px); transition: opacity .8s ease, transform .8s ease; transition-delay: .15s; }
+.code-outer.visible { opacity: 1; transform: translateY(0); }
+.code-topbar {
+  display: flex; justify-content: space-between; align-items: center;
+  background: #090c1c; border: 1px solid var(--border); border-bottom: none;
+  border-radius: 6px 6px 0 0; padding: .7rem 1.2rem;
 }
-.stat-item .val {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.6rem;
-  color: var(--ink);
-}
+.code-topbar .finfo { display: flex; align-items: center; gap: 1rem; }
+.code-topbar .fname { font-size: .62rem; letter-spacing: .1em; color: var(--muted); }
+.code-topbar .lang { font-size: .52rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent2); background: rgba(74,158,255,.08); border: 1px solid rgba(74,158,255,.2); padding: .18rem .55rem; border-radius: 3px; }
+.code-copy { background: transparent; border: 1px solid var(--border); color: var(--muted); font-family: 'DM Mono', monospace; font-size: .52rem; letter-spacing: .12em; text-transform: uppercase; padding: .28rem .75rem; border-radius: 3px; cursor: pointer; transition: color .2s, border-color .2s; }
+.code-copy:hover { color: var(--accent2); border-color: rgba(74,158,255,.5); }
+.code-scroll { max-height: 540px; overflow-y: auto; border: 1px solid var(--border); border-radius: 0 0 6px 6px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.code-scroll::-webkit-scrollbar { width: 5px; }
+.code-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.code-scroll pre { margin: 0 !important; border-radius: 0 !important; font-size: .7rem !important; line-height: 1.65 !important; background: #07091a !important; padding: 1.4rem 1.6rem !important; }
+.code-scroll pre code { background: transparent !important; font-size: inherit !important; }
+
+.chips { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.6rem; opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; transition-delay: .3s; }
+.chips.visible { opacity: 1; transform: translateY(0); }
+.chip { display: flex; align-items: flex-start; gap: .5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: .5rem .9rem; font-size: .58rem; color: var(--muted); line-height: 1.5; }
+.chip-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent2); flex-shrink: 0; margin-top: .35rem; }
+.chip strong { color: var(--ink); font-weight: 400; margin-right: .2rem; }
+
 footer {
-  position: relative;
-  z-index: 2;
-  padding: 2rem 4rem;
-  border-top: 1px solid var(--border);
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.6rem;
-  letter-spacing: 0.1em;
-  color: var(--muted);
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  position: relative; z-index: 2; padding: 2rem 4rem; border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between;
+  font-size: .6rem; letter-spacing: .1em; color: var(--muted);
+  opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease;
 }
 footer.visible { opacity: 1; transform: translateY(0); }
 
 @media (max-width: 768px) {
-  .planets-grid { grid-template-columns: 1fr; padding: 3rem 2rem 6rem; }
   .hero { padding: 6rem 2rem 3rem; }
-  .section-header { padding: 4rem 2rem 2rem; }
+  .video-section { padding: 3rem 2rem 4rem; }
   .calculator-section { padding: 0 2rem 4rem; }
   .calculator-box { padding: 1.8rem; }
+  .section-header { padding: 4rem 2rem 2rem; }
+  .planets-grid { grid-template-columns: 1fr; padding: 3rem 2rem 6rem; }
   .stats-overview { padding: 2rem 2rem; gap: 2rem; }
-  footer { flex-direction: column; gap: 0.5rem; padding: 2rem 2rem; }
+  .code-section { padding: 4rem 2rem 5rem; }
+  footer { flex-direction: column; gap: .5rem; padding: 2rem 2rem; }
 }
 </style>
 </head>
@@ -420,6 +332,7 @@ footer.visible { opacity: 1; transform: translateY(0); }
   </ul>
 </nav>
 
+<!-- HERO -->
 <div class="hero">
   <p class="page-label" id="pg-label">Project — 02 / Interactive Visualization</p>
   <h1 class="hero-title">
@@ -429,6 +342,22 @@ footer.visible { opacity: 1; transform: translateY(0); }
   <p class="hero-sub" id="hero-sub">An interactive model of our solar system — orbits, periods, and scale rendered with scientific precision. Motion as mathematics, space as canvas.</p>
 </div>
 
+<!-- YOUTUBE VIDEO -->
+<div class="video-section">
+  <p class="video-eyebrow" id="vid-eyebrow">3D Animation — Blender Render</p>
+  <h2 class="video-heading" id="vid-heading">Solar System in Motion</h2>
+  <p class="video-sub" id="vid-sub">A full 3D render produced in Blender — scripted camera visits, orbital animations, and cinematic depth-of-field across all nine bodies.</p>
+  <div class="video-wrapper" id="vid-wrap">
+    <iframe
+      src="https://www.youtube.com/embed/4uycvBYdF9k?rel=0&modestbranding=1&color=white"
+      title="Solar System 3D Render — Ybrahim"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+</div>
+
+<!-- CALCULATOR -->
 <div class="calculator-section">
   <div class="calculator-box" id="calc-box">
     <div class="calculator-title">Calculate Time & Motion</div>
@@ -444,22 +373,23 @@ footer.visible { opacity: 1; transform: translateY(0); }
   </div>
 </div>
 
+<!-- SECTION HEADER -->
 <div class="section-header">
   <h2 id="section-title">The Planets</h2>
   <p id="section-desc">Eight worlds, each with unique characteristics, orbiting our star in a carefully choreographed cosmic dance that has persisted for billions of years.</p>
 </div>
 
+<!-- PLANET CARDS -->
 <div class="planets-grid" id="planets-grid">
 
+  <!-- SUN -->
   <div class="planet-card">
-    <div class="planet-header">
-      <h3 class="planet-name">Sun</h3>
-      <span class="planet-type">Star</span>
-    </div>
-    <div class="planet-visual">
-      <video autoplay loop muted playsinline>
-        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Sun.mp4" type="video/mp4">
-      </video>
+    <div class="planet-header"><h3 class="planet-name">Sun</h3><span class="planet-type">Star</span></div>
+    <div class="planet-visual" id="vis-sun">
+      <video autoplay loop muted playsinline><source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Sun.mp4" type="video/mp4"></video>
+      <img class="tex" src="" data-src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planet%20Textures/Sun/sun_texture.jpg" alt="Sun texture" onerror="tryFallback(this,'Sun')" onload="this.closest('.planet-visual').classList.add('tex-ok')">
+      <div class="tex-loader"><div class="spin"></div><span>Loading…</span></div>
+      <div class="view-toggle"><button class="active" onclick="showVid(this)">Video</button><button onclick="showTex(this)">Texture</button></div>
     </div>
     <div class="planet-stats">
       <div class="planet-stat"><label>Age</label><div class="value" id="sun-age">4.6 billion years</div></div>
@@ -470,15 +400,14 @@ footer.visible { opacity: 1; transform: translateY(0); }
     <p class="planet-description">Our star, the Sun, is a massive ball of plasma that provides the energy needed for life on Earth through nuclear fusion.</p>
   </div>
 
+  <!-- MERCURY -->
   <div class="planet-card">
-    <div class="planet-header">
-      <h3 class="planet-name">Mercury</h3>
-      <span class="planet-type">Terrestrial</span>
-    </div>
+    <div class="planet-header"><h3 class="planet-name">Mercury</h3><span class="planet-type">Terrestrial</span></div>
     <div class="planet-visual">
-      <video autoplay loop muted playsinline>
-        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Mercury.mp4" type="video/mp4">
-      </video>
+      <video autoplay loop muted playsinline><source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Mercury.mp4" type="video/mp4"></video>
+      <img class="tex" src="" data-src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planet%20Textures/Mercury/mercury_texture.jpg" alt="Mercury texture" onerror="tryFallback(this,'Mercury')" onload="this.closest('.planet-visual').classList.add('tex-ok')">
+      <div class="tex-loader"><div class="spin"></div><span>Loading…</span></div>
+      <div class="view-toggle"><button class="active" onclick="showVid(this)">Video</button><button onclick="showTex(this)">Texture</button></div>
     </div>
     <div class="planet-stats">
       <div class="planet-stat"><label>Age</label><div class="value" id="mercury-age">4.5 billion years</div></div>
@@ -489,15 +418,14 @@ footer.visible { opacity: 1; transform: translateY(0); }
     <p class="planet-description">The smallest and innermost planet, Mercury has extreme temperature variations and a surface scarred by countless impact craters.</p>
   </div>
 
+  <!-- VENUS -->
   <div class="planet-card">
-    <div class="planet-header">
-      <h3 class="planet-name">Venus</h3>
-      <span class="planet-type">Terrestrial</span>
-    </div>
+    <div class="planet-header"><h3 class="planet-name">Venus</h3><span class="planet-type">Terrestrial</span></div>
     <div class="planet-visual">
-      <video autoplay loop muted playsinline>
-        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Venus.mp4" type="video/mp4">
-      </video>
+      <video autoplay loop muted playsinline><source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Venus.mp4" type="video/mp4"></video>
+      <img class="tex" src="" data-src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planet%20Textures/Venus/venus_texture.jpg" alt="Venus texture" onerror="tryFallback(this,'Venus')" onload="this.closest('.planet-visual').classList.add('tex-ok')">
+      <div class="tex-loader"><div class="spin"></div><span>Loading…</span></div>
+      <div class="view-toggle"><button class="active" onclick="showVid(this)">Video</button><button onclick="showTex(this)">Texture</button></div>
     </div>
     <div class="planet-stats">
       <div class="planet-stat"><label>Age</label><div class="value" id="venus-age">4.5 billion years</div></div>
@@ -508,15 +436,14 @@ footer.visible { opacity: 1; transform: translateY(0); }
     <p class="planet-description">Often called Earth's twin, Venus is shrouded in thick toxic clouds and has a runaway greenhouse effect making it the hottest planet.</p>
   </div>
 
+  <!-- EARTH -->
   <div class="planet-card">
-    <div class="planet-header">
-      <h3 class="planet-name">Earth</h3>
-      <span class="planet-type">Terrestrial (Reference)</span>
-    </div>
+    <div class="planet-header"><h3 class="planet-name">Earth</h3><span class="planet-type">Terrestrial (Reference)</span></div>
     <div class="planet-visual">
-      <video autoplay loop muted playsinline>
-        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Earth.mp4" type="video/mp4">
-      </video>
+      <video autoplay loop muted playsinline><source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Earth.mp4" type="video/mp4"></video>
+      <img class="tex" src="" data-src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planet%20Textures/Earth/earth_texture.jpg" alt="Earth texture" onerror="tryFallback(this,'Earth')" onload="this.closest('.planet-visual').classList.add('tex-ok')">
+      <div class="tex-loader"><div class="spin"></div><span>Loading…</span></div>
+      <div class="view-toggle"><button class="active" onclick="showVid(this)">Video</button><button onclick="showTex(this)">Texture</button></div>
     </div>
     <div class="planet-stats">
       <div class="planet-stat"><label>Age</label><div class="value" id="earth-age">4.5 billion years</div></div>
@@ -527,15 +454,14 @@ footer.visible { opacity: 1; transform: translateY(0); }
     <p class="planet-description">Our home planet is the only known place in the universe confirmed to host life, with vast oceans and a protective atmosphere.</p>
   </div>
 
+  <!-- MARS -->
   <div class="planet-card">
-    <div class="planet-header">
-      <h3 class="planet-name">Mars</h3>
-      <span class="planet-type">Terrestrial</span>
-    </div>
+    <div class="planet-header"><h3 class="planet-name">Mars</h3><span class="planet-type">Terrestrial</span></div>
     <div class="planet-visual">
-      <video autoplay loop muted playsinline>
-        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Mars.mp4" type="video/mp4">
-      </video>
+      <video autoplay loop muted playsinline><source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Mars.mp4" type="video/mp4"></video>
+      <img class="tex" src="" data-src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planet%20Textures/Mars/mars_texture.jpg" alt="Mars texture" onerror="tryFallback(this,'Mars')" onload="this.closest('.planet-visual').classList.add('tex-ok')">
+      <div class="tex-loader"><div class="spin"></div><span>Loading…</span></div>
+      <div class="view-toggle"><button class="active" onclick="showVid(this)">Video</button><button onclick="showTex(this)">Texture</button></div>
     </div>
     <div class="planet-stats">
       <div class="planet-stat"><label>Age</label><div class="value" id="mars-age">4.6 billion years</div></div>
@@ -546,15 +472,14 @@ footer.visible { opacity: 1; transform: translateY(0); }
     <p class="planet-description">The Red Planet features the largest volcano in the solar system and polar ice caps that contain frozen water and carbon dioxide.</p>
   </div>
 
+  <!-- JUPITER -->
   <div class="planet-card">
-    <div class="planet-header">
-      <h3 class="planet-name">Jupiter</h3>
-      <span class="planet-type">Gas Giant</span>
-    </div>
+    <div class="planet-header"><h3 class="planet-name">Jupiter</h3><span class="planet-type">Gas Giant</span></div>
     <div class="planet-visual">
-      <video autoplay loop muted playsinline>
-        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Jupiter.mp4" type="video/mp4">
-      </video>
+      <video autoplay loop muted playsinline><source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Jupiter.mp4" type="video/mp4"></video>
+      <img class="tex" src="" data-src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planet%20Textures/Jupiter/jupiter_texture.jpg" alt="Jupiter texture" onerror="tryFallback(this,'Jupiter')" onload="this.closest('.planet-visual').classList.add('tex-ok')">
+      <div class="tex-loader"><div class="spin"></div><span>Loading…</span></div>
+      <div class="view-toggle"><button class="active" onclick="showVid(this)">Video</button><button onclick="showTex(this)">Texture</button></div>
     </div>
     <div class="planet-stats">
       <div class="planet-stat"><label>Age</label><div class="value" id="jupiter-age">4.6 billion years</div></div>
@@ -565,15 +490,14 @@ footer.visible { opacity: 1; transform: translateY(0); }
     <p class="planet-description">The largest planet in our solar system, Jupiter's Great Red Spot is a storm larger than Earth that has raged for centuries.</p>
   </div>
 
+  <!-- SATURN -->
   <div class="planet-card">
-    <div class="planet-header">
-      <h3 class="planet-name">Saturn</h3>
-      <span class="planet-type">Gas Giant</span>
-    </div>
+    <div class="planet-header"><h3 class="planet-name">Saturn</h3><span class="planet-type">Gas Giant</span></div>
     <div class="planet-visual">
-      <video autoplay loop muted playsinline>
-       <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Saturn.mp4" type="video/mp4">
-      </video>
+      <video autoplay loop muted playsinline><source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Saturn.mp4" type="video/mp4"></video>
+      <img class="tex" src="" data-src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planet%20Textures/Saturn/saturn_texture.jpg" alt="Saturn texture" onerror="tryFallback(this,'Saturn')" onload="this.closest('.planet-visual').classList.add('tex-ok')">
+      <div class="tex-loader"><div class="spin"></div><span>Loading…</span></div>
+      <div class="view-toggle"><button class="active" onclick="showVid(this)">Video</button><button onclick="showTex(this)">Texture</button></div>
     </div>
     <div class="planet-stats">
       <div class="planet-stat"><label>Age</label><div class="value" id="saturn-age">4.5 billion years</div></div>
@@ -584,15 +508,14 @@ footer.visible { opacity: 1; transform: translateY(0); }
     <p class="planet-description">Adorned with spectacular ring systems made of ice and rock, Saturn is the second-largest planet and could float in water.</p>
   </div>
 
+  <!-- URANUS -->
   <div class="planet-card">
-    <div class="planet-header">
-      <h3 class="planet-name">Uranus</h3>
-      <span class="planet-type">Ice Giant</span>
-    </div>
+    <div class="planet-header"><h3 class="planet-name">Uranus</h3><span class="planet-type">Ice Giant</span></div>
     <div class="planet-visual">
-      <video autoplay loop muted playsinline>
-        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Uranus.mp4" type="video/mp4">
-      </video>
+      <video autoplay loop muted playsinline><source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Uranus.mp4" type="video/mp4"></video>
+      <img class="tex" src="" data-src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planet%20Textures/Uranus/uranus_texture.jpg" alt="Uranus texture" onerror="tryFallback(this,'Uranus')" onload="this.closest('.planet-visual').classList.add('tex-ok')">
+      <div class="tex-loader"><div class="spin"></div><span>Loading…</span></div>
+      <div class="view-toggle"><button class="active" onclick="showVid(this)">Video</button><button onclick="showTex(this)">Texture</button></div>
     </div>
     <div class="planet-stats">
       <div class="planet-stat"><label>Age</label><div class="value" id="uranus-age">4.5 billion years</div></div>
@@ -603,15 +526,14 @@ footer.visible { opacity: 1; transform: translateY(0); }
     <p class="planet-description">The tilted ice giant rotates on its side, possibly due to a massive collision in its past, giving it extreme seasonal variations.</p>
   </div>
 
+  <!-- NEPTUNE -->
   <div class="planet-card">
-    <div class="planet-header">
-      <h3 class="planet-name">Neptune</h3>
-      <span class="planet-type">Ice Giant</span>
-    </div>
+    <div class="planet-header"><h3 class="planet-name">Neptune</h3><span class="planet-type">Ice Giant</span></div>
     <div class="planet-visual">
-      <video autoplay loop muted playsinline>
-        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Neptune.mp4" type="video/mp4">
-      </video>
+      <video autoplay loop muted playsinline><source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Neptune.mp4" type="video/mp4"></video>
+      <img class="tex" src="" data-src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planet%20Textures/Neptune/neptune_texture.jpg" alt="Neptune texture" onerror="tryFallback(this,'Neptune')" onload="this.closest('.planet-visual').classList.add('tex-ok')">
+      <div class="tex-loader"><div class="spin"></div><span>Loading…</span></div>
+      <div class="view-toggle"><button class="active" onclick="showVid(this)">Video</button><button onclick="showTex(this)">Texture</button></div>
     </div>
     <div class="planet-stats">
       <div class="planet-stat"><label>Age</label><div class="value" id="neptune-age">4.5 billion years</div></div>
@@ -622,15 +544,14 @@ footer.visible { opacity: 1; transform: translateY(0); }
     <p class="planet-description">The outermost planet features the fastest winds in the solar system and a deep blue color from methane in its atmosphere.</p>
   </div>
 
+  <!-- PLUTO -->
   <div class="planet-card">
-    <div class="planet-header">
-      <h3 class="planet-name">Pluto</h3>
-      <span class="planet-type">Dwarf Planet</span>
-    </div>
+    <div class="planet-header"><h3 class="planet-name">Pluto</h3><span class="planet-type">Dwarf Planet</span></div>
     <div class="planet-visual">
-      <video autoplay loop muted playsinline>
-        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Pluto.mp4" type="video/mp4">
-      </video>
+      <video autoplay loop muted playsinline><source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Pluto.mp4" type="video/mp4"></video>
+      <img class="tex" src="" data-src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planet%20Textures/Pluto/pluto_texture.jpg" alt="Pluto texture" onerror="tryFallback(this,'Pluto')" onload="this.closest('.planet-visual').classList.add('tex-ok')">
+      <div class="tex-loader"><div class="spin"></div><span>Loading…</span></div>
+      <div class="view-toggle"><button class="active" onclick="showVid(this)">Video</button><button onclick="showTex(this)">Texture</button></div>
     </div>
     <div class="planet-stats">
       <div class="planet-stat"><label>Age</label><div class="value" id="pluto-age">4.5 billion years</div></div>
@@ -643,11 +564,42 @@ footer.visible { opacity: 1; transform: translateY(0); }
 
 </div>
 
+<!-- STATS OVERVIEW -->
 <div class="stats-overview" id="stats-overview">
   <div class="stat-item"><label>Planets</label><div class="val">8</div></div>
   <div class="stat-item"><label>Light Travel (Sun to Earth)</label><div class="val">8.3 min</div></div>
   <div class="stat-item"><label>System Age</label><div class="val">4.6B yrs</div></div>
   <div class="stat-item"><label>Known Moons</label><div class="val">200+</div></div>
+</div>
+
+<!-- BLENDER SCRIPT -->
+<div class="code-section">
+  <div class="code-intro" id="code-intro">
+    <p class="code-eyebrow">Technical Reference — Blender 5.1</p>
+    <h2>Animation Script</h2>
+    <p>The Python script below drives the entire 3D render — camera choreography, orbital timing, depth-of-field per planet, and NLA strip extension across a full 2-minute timeline.</p>
+  </div>
+
+  <div class="code-outer" id="code-outer">
+    <div class="code-topbar">
+      <div class="finfo">
+        <span class="fname">solar_system_camera_fix.py</span>
+        <span class="lang">Python · Blender 5.1</span>
+      </div>
+      <button class="code-copy" id="copy-btn" onclick="copyCode()">Copy</button>
+    </div>
+    <div class="code-scroll">
+      <pre><code class="language-python" id="code-el"></code></pre>
+    </div>
+  </div>
+
+  <div class="chips" id="chips">
+    <div class="chip"><div class="chip-dot"></div><span><strong>2880 frames</strong> @ 24 fps = exactly 2 minutes</span></div>
+    <div class="chip"><div class="chip-dot"></div><span><strong>9 planet cameras</strong> with arc keyframes — arrival, mid, departure</span></div>
+    <div class="chip"><div class="chip-dot"></div><span><strong>Depth-of-field</strong> per planet with custom f-stop values</span></div>
+    <div class="chip"><div class="chip-dot"></div><span><strong>NLA strip extension</strong> loops orbit animations across full timeline</span></div>
+    <div class="chip"><div class="chip-dot"></div><span><strong>Blender 5.1 F-curve iterator</strong> compatible with new action layers API</span></div>
+  </div>
 </div>
 
 <footer id="footer">
@@ -656,123 +608,407 @@ footer.visible { opacity: 1; transform: translateY(0); }
 </footer>
 
 <script>
-/* ── Planet data: orbital periods in Earth years ── */
+/* ══════════════════════════════════════
+   PLANET DATA & CALCULATOR
+══════════════════════════════════════ */
 const planets = {
-  mercury: { orbitalYears: 88 / 365.25,    orbLabel: '88 Earth days' },
-  venus:   { orbitalYears: 224.7 / 365.25, orbLabel: '225 Earth days' },
-  earth:   { orbitalYears: 1,               orbLabel: '365.25 Earth days' },
-  mars:    { orbitalYears: 1.881,            orbLabel: '687 Earth days' },
-  jupiter: { orbitalYears: 11.86,            orbLabel: '11.86 Earth years' },
-  saturn:  { orbitalYears: 29.46,            orbLabel: '29.46 Earth years' },
-  uranus:  { orbitalYears: 84.01,            orbLabel: '84 Earth years' },
-  neptune: { orbitalYears: 164.8,            orbLabel: '164.8 Earth years' },
-  pluto:   { orbitalYears: 248,              orbLabel: '248 Earth years' },
+  mercury: { orbitalYears: 88/365.25,    orbLabel: '88 Earth days' },
+  venus:   { orbitalYears: 224.7/365.25, orbLabel: '225 Earth days' },
+  earth:   { orbitalYears: 1,             orbLabel: '365.25 Earth days' },
+  mars:    { orbitalYears: 1.881,          orbLabel: '687 Earth days' },
+  jupiter: { orbitalYears: 11.86,          orbLabel: '11.86 Earth years' },
+  saturn:  { orbitalYears: 29.46,          orbLabel: '29.46 Earth years' },
+  uranus:  { orbitalYears: 84.01,          orbLabel: '84 Earth years' },
+  neptune: { orbitalYears: 164.8,          orbLabel: '164.8 Earth years' },
+  pluto:   { orbitalYears: 248,            orbLabel: '248 Earth years' },
 };
 
 function flash(el) {
-  el.classList.remove('updated');
-  void el.offsetWidth; 
-  el.classList.add('updated');
+  el.classList.remove('updated'); void el.offsetWidth; el.classList.add('updated');
   setTimeout(() => el.classList.remove('updated'), 1200);
 }
-
 function setVal(id, text) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.textContent = text;
-  flash(el);
+  const el = document.getElementById(id); if (!el) return;
+  el.textContent = text; flash(el);
 }
-
 function calculateAges() {
   const raw = parseFloat(document.getElementById('user-earth-age').value);
   if (isNaN(raw) || raw < 0) return;
-
-  const earthYears = raw;
-
-  /* Iterate through planet objects */
   Object.entries(planets).forEach(([key, data]) => {
-    const revolutions = earthYears / data.orbitalYears;
-    const ageOnPlanet  = earthYears / data.orbitalYears;
-
-    setVal(`${key}-age`, ageOnPlanet.toFixed(2) + ` yrs (${key} time)`);
-    setVal(`${key}-rev`, revolutions.toFixed(2) + ' orbits');
+    const rev = raw / data.orbitalYears;
+    setVal(`${key}-age`, rev.toFixed(2) + ` yrs (${key} time)`);
+    setVal(`${key}-rev`, rev.toFixed(2) + ' orbits');
     setVal(`${key}-orb`, data.orbLabel);
   });
-
-  /* Scroll to cards */
   document.getElementById('planets-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+document.getElementById('user-earth-age').addEventListener('keydown', e => { if (e.key==='Enter') calculateAges(); });
 
-/* Allow Enter key to trigger calculate */
-document.getElementById('user-earth-age').addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') calculateAges();
-});
+/* ══════════════════════════════════════
+   VIDEO / TEXTURE TOGGLE
+══════════════════════════════════════ */
+function showVid(btn) {
+  const v = btn.closest('.planet-visual');
+  v.classList.remove('show-tex');
+  btn.classList.add('active');
+  btn.nextElementSibling.classList.remove('active');
+}
+function showTex(btn) {
+  const v = btn.closest('.planet-visual');
+  v.classList.add('show-tex');
+  btn.classList.add('active');
+  btn.previousElementSibling.classList.remove('active');
+  // lazy load
+  const img = v.querySelector('img.tex');
+  if (img && img.dataset.src) { img.src = img.dataset.src; delete img.dataset.src; }
+}
 
-/* ── Stars Background ── */
+// Fallback: try alternate filenames if primary 404s
+const fallbackNames = {
+  Sun:'sun', Mercury:'mercury', Venus:'venus', Earth:'earth',
+  Mars:'mars', Jupiter:'jupiter', Saturn:'saturn',
+  Uranus:'uranus', Neptune:'neptune', Pluto:'pluto'
+};
+function tryFallback(img, planet) {
+  const base = `https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planet%20Textures/${planet}/`;
+  const tried = img.dataset.tried || '';
+  const options = [
+    `${fallbackNames[planet]}.jpg`,
+    `${fallbackNames[planet]}.png`,
+    `${planet}.jpg`,
+    `${planet}.png`,
+    `${fallbackNames[planet]}_8k.jpg`,
+  ].filter(f => !tried.includes(f));
+  if (options.length) {
+    const next = options[0];
+    img.dataset.tried = tried + '|' + next;
+    img.src = base + next;
+  } else {
+    img.closest('.planet-visual').classList.add('tex-ok'); // hide spinner even on fail
+  }
+}
+
+/* ══════════════════════════════════════
+   STARS
+══════════════════════════════════════ */
 const canvas = document.getElementById('stars-canvas');
 const ctx = canvas.getContext('2d');
 let stars = [], tick = 0;
-function resize() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  initStars();
-}
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; initStars(); }
 function initStars() {
   stars = [];
   const count = Math.floor((canvas.width * canvas.height) / 3000);
-  for (let i = 0; i < count; i++) {
-    stars.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 1.4 + 0.2,
-      alpha: Math.random() * 0.7 + 0.2,
-      speed: Math.random() * 0.003 + 0.001,
-      phase: Math.random() * Math.PI * 2
-    });
-  }
+  for (let i = 0; i < count; i++) stars.push({
+    x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+    r: Math.random() * 1.4 + 0.2, alpha: Math.random() * 0.7 + 0.2,
+    speed: Math.random() * 0.003 + 0.001, phase: Math.random() * Math.PI * 2
+  });
 }
 function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  tick += 0.016;
+  ctx.clearRect(0, 0, canvas.width, canvas.height); tick += 0.016;
   for (const s of stars) {
     const a = s.alpha * (0.6 + 0.4 * Math.sin(tick * s.speed * 60 + s.phase));
-    ctx.beginPath();
-    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-    ctx.globalAlpha = a;
-    ctx.fillStyle = '#c8d2ff';
-    ctx.fill();
+    ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.globalAlpha = a; ctx.fillStyle = '#c8d2ff'; ctx.fill();
   }
-  ctx.globalAlpha = 1;
-  requestAnimationFrame(draw);
+  ctx.globalAlpha = 1; requestAnimationFrame(draw);
 }
-resize();
-draw();
-window.addEventListener('resize', resize);
+resize(); draw(); window.addEventListener('resize', resize);
 
-/* ── Slide-in animations on load ── */
+/* ══════════════════════════════════════
+   CODE INJECTION
+══════════════════════════════════════ */
+const pySource = `"""
+Solar System Animation Script — Blender 5.1  (Camera-Fix Edition)
+==================================================================
+FIXES IN THIS VERSION:
+  • SOLAR_CAM renamed to "Camera" to match your actual scene object.
+  • setup_overview_camera() uses your exact N-panel coordinates.
+  • scene.camera is explicitly set so the Camera appears in the timeline.
+  • Marker at frame 1 is force-created directly (bypasses add_cam_marker
+    silent-fail bug).
+  • Outro marker also force-created the same way.
+"""
+
+import bpy
+import math
+from mathutils import Vector
+
+# ─────────────────────────────────────────────────────────────────
+#  SETTINGS
+# ─────────────────────────────────────────────────────────────────
+
+FPS           = 24
+TOTAL_FRAMES  = 2880          # exactly 2 minutes
+
+INTRO_FRAMES  = 200           # wide solar-system overview
+VISIT_FRAMES  = 240           # time parked near each planet
+TRANS_FRAMES  = 20            # cut/blend between cameras
+OUTRO_FRAMES  = 200           # pull back to wide at the end
+
+PLANET_ORDER = [
+    "Mercury", "Venus", "Earth", "Mars",
+    "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto",
+]
+
+SOLAR_CAM = "Camera"
+
+CAM_FOV   = 50.0
+SOLAR_FOV = 60.0
+
+FRAME_PAD = {
+    "Mercury": 1.6, "Venus": 1.7, "Earth": 1.8, "Mars": 1.7,
+    "Jupiter": 2.0, "Saturn": 2.5, "Uranus": 1.9,
+    "Neptune": 1.9, "Pluto": 1.5,
+}
+
+CAM_OFFSETS = {
+    "Mercury": {"elev": 20, "side": 30},
+    "Venus":   {"elev": 18, "side": 25},
+    "Earth":   {"elev": 22, "side": 35},
+    "Mars":    {"elev": 18, "side": 28},
+    "Jupiter": {"elev": 25, "side": 40},
+    "Saturn":  {"elev": 32, "side": 35},
+    "Uranus":  {"elev": 20, "side": 30},
+    "Neptune": {"elev": 20, "side": 30},
+    "Pluto":   {"elev": 15, "side": 20},
+}
+
+DOF_FSTOP = {
+    "Mercury": 2.4, "Venus": 2.8, "Earth": 2.4, "Mars": 2.4,
+    "Jupiter": 3.5, "Saturn": 3.5, "Uranus": 2.8, "Neptune": 2.8,
+    "Pluto": 2.0,
+}
+
+# ─────────────────────────────────────────────────────────────────
+#  BLENDER 5.1 FCURVE ITERATOR
+# ─────────────────────────────────────────────────────────────────
+
+def iter_fcurves(action):
+    if hasattr(action, 'layers'):
+        for layer in action.layers:
+            for strip in layer.strips:
+                if hasattr(action, 'slots'):
+                    for slot in action.slots:
+                        try:
+                            cb = strip.channelbag(slot)
+                            if cb:
+                                yield from cb.fcurves
+                        except Exception:
+                            pass
+                if hasattr(strip, 'fcurves'):
+                    yield from strip.fcurves
+        return
+    if hasattr(action, 'fcurves'):
+        yield from action.fcurves
+
+# ─────────────────────────────────────────────────────────────────
+#  HELPERS
+# ─────────────────────────────────────────────────────────────────
+
+def obj(name):
+    o = bpy.data.objects.get(name)
+    if o is None:
+        print(f"  [WARNING] Object '{name}' not found.")
+    return o
+
+def goto(frame):
+    bpy.context.scene.frame_set(frame)
+
+def look_at(cam_ob, target: Vector):
+    direction = target - cam_ob.location
+    if direction.length < 1e-6:
+        return
+    cam_ob.rotation_euler = direction.to_track_quat('-Z', 'Y').to_euler()
+
+def kf_loc_rot(ob, frame):
+    ob.keyframe_insert(data_path="location",       frame=frame)
+    ob.keyframe_insert(data_path="rotation_euler", frame=frame)
+
+def force_cam_marker(cam_ob, frame):
+    scene = bpy.context.scene
+    for m in [m for m in scene.timeline_markers if m.frame == frame]:
+        scene.timeline_markers.remove(m)
+    mk = scene.timeline_markers.new(name=cam_ob.name, frame=frame)
+    mk.camera = cam_ob
+
+def smooth_cam(cam_ob):
+    anim = cam_ob.animation_data
+    if anim is None or anim.action is None:
+        return
+    for fc in iter_fcurves(anim.action):
+        for kp in fc.keyframe_points:
+            kp.interpolation      = 'BEZIER'
+            kp.handle_left_type  = 'AUTO_CLAMPED'
+            kp.handle_right_type = 'AUTO_CLAMPED'
+
+def get_planet_radius(ob):
+    if ob is None:
+        return 1.0
+    try:
+        bbox_world = [ob.matrix_world @ Vector(c) for c in ob.bound_box]
+        centre = sum(bbox_world, Vector()) / 8.0
+        return max((c - centre).length for c in bbox_world) or 0.05
+    except Exception:
+        return 1.0
+
+def calc_safe_dist(planet_ob, fov_deg, padding=1.8):
+    radius = get_planet_radius(planet_ob)
+    half_fov = math.radians(fov_deg / 2.0)
+    return max((radius / math.tan(half_fov)) * padding, radius * 1.05)
+
+def set_cam_fov(cam_ob, fov_deg):
+    if cam_ob and cam_ob.data:
+        cam_ob.data.angle = math.radians(fov_deg)
+
+def cam_offset_vector(planet_pos: Vector, dist, elev_deg, side_deg):
+    elev = math.radians(elev_deg)
+    side = math.radians(side_deg)
+    stp = planet_pos.copy(); stp.z = 0
+    stp = stp.normalized() if stp.length > 1e-6 else Vector((1, 0, 0))
+    perp = Vector((-stp.y, stp.x, 0))
+    offset = (stp * math.cos(elev) * math.cos(side)
+            + perp * math.cos(elev) * math.sin(side)
+            + Vector((0, 0, math.sin(elev)))).normalized()
+    return planet_pos + offset * dist
+
+# ─────────────────────────────────────────────────────────────────
+#  SETUP FUNCTIONS
+# ─────────────────────────────────────────────────────────────────
+
+def setup_scene():
+    scene = bpy.context.scene
+    scene.frame_start = 1
+    scene.frame_end   = TOTAL_FRAMES
+    scene.render.fps  = FPS
+    scene.render.resolution_x          = 1920
+    scene.render.resolution_y          = 1080
+    scene.render.resolution_percentage = 100
+
+def setup_overview_camera():
+    cam = obj(SOLAR_CAM)
+    if cam is None:
+        return
+    set_cam_fov(cam, SOLAR_FOV)
+    start_loc = Vector((27.923, -203.09, 87.105))
+    start_rot = (math.radians(65.574), math.radians(2.5453), math.radians(6.8489))
+    end_loc   = Vector((18.0, -130.0, 56.0))
+
+    goto(1);             cam.location = start_loc; cam.rotation_euler = start_rot; kf_loc_rot(cam, 1)
+    goto(INTRO_FRAMES);  cam.location = end_loc;   cam.rotation_euler = start_rot; kf_loc_rot(cam, INTRO_FRAMES)
+    outro = TOTAL_FRAMES - OUTRO_FRAMES
+    goto(outro);         cam.location = end_loc;   cam.rotation_euler = start_rot; kf_loc_rot(cam, outro)
+    goto(TOTAL_FRAMES);  cam.location = start_loc; cam.rotation_euler = start_rot; kf_loc_rot(cam, TOTAL_FRAMES)
+
+    smooth_cam(cam)
+    bpy.context.scene.camera = cam
+    force_cam_marker(cam, 1)
+
+def setup_planet_visits():
+    scene = bpy.context.scene
+    for m in [m for m in scene.timeline_markers if m.camera]:
+        scene.timeline_markers.remove(m)
+    if cam_ob := obj(SOLAR_CAM):
+        force_cam_marker(cam_ob, 1)
+
+    current = INTRO_FRAMES + 1
+    for planet_name in PLANET_ORDER:
+        cam    = obj(planet_name + "_Camera")
+        planet = obj(planet_name)
+        if not cam or not planet:
+            current += VISIT_FRAMES + TRANS_FRAMES; continue
+
+        set_cam_fov(cam, CAM_FOV)
+        o = CAM_OFFSETS[planet_name]
+        elev, side, pad = o["elev"], o["side"], FRAME_PAD[planet_name]
+
+        for i, foff in enumerate([0, VISIT_FRAMES // 2, VISIT_FRAMES]):
+            goto(current + foff)
+            bpy.context.view_layer.update()
+            p = planet.matrix_world.translation.copy()
+            d = calc_safe_dist(planet, CAM_FOV, pad)
+            cam.location = cam_offset_vector(p, d * [1.35,1.0,1.2][i],
+                                             elev + [10,0,-8][i], side + [-20,15,40][i])
+            look_at(cam, p); kf_loc_rot(cam, current + foff)
+
+        force_cam_marker(cam, current)
+        smooth_cam(cam)
+        current += VISIT_FRAMES + TRANS_FRAMES
+
+    if cam_ob := obj(SOLAR_CAM):
+        force_cam_marker(cam_ob, TOTAL_FRAMES - OUTRO_FRAMES)
+
+def setup_dof():
+    for planet_name in PLANET_ORDER:
+        cam_ob = obj(planet_name + "_Camera")
+        planet = obj(planet_name)
+        if not cam_ob or not planet: continue
+        cam_ob.data.dof.use_dof        = True
+        cam_ob.data.dof.focus_object   = planet
+        cam_ob.data.dof.aperture_fstop = DOF_FSTOP.get(planet_name, 2.8)
+
+def extend_orbit_animations():
+    for planet_name in PLANET_ORDER:
+        orbit_ob = bpy.data.objects.get(planet_name + "_Orbit")
+        if not orbit_ob or not orbit_ob.animation_data: continue
+        for track in orbit_ob.animation_data.nla_tracks:
+            for strip in track.strips:
+                length = max(strip.frame_end - strip.frame_start, 1)
+                strip.repeat        = TOTAL_FRAMES / length
+                strip.frame_end     = TOTAL_FRAMES
+                strip.extrapolation = 'HOLD'
+
+# ─────────────────────────────────────────────────────────────────
+#  MAIN
+# ─────────────────────────────────────────────────────────────────
+
+def main():
+    setup_scene()
+    extend_orbit_animations()
+    setup_overview_camera()
+    setup_planet_visits()
+    setup_dof()
+    bpy.context.scene.frame_set(1)
+    print(f"DONE! {TOTAL_FRAMES} frames = {TOTAL_FRAMES/FPS:.1f} sec @ {FPS} fps")
+    print("Press SPACE to preview, Ctrl+F12 to render.")
+
+main()`;
+
+document.getElementById('code-el').textContent = pySource;
+
+function copyCode() {
+  navigator.clipboard.writeText(pySource).then(() => {
+    const b = document.getElementById('copy-btn');
+    b.textContent = 'Copied!';
+    setTimeout(() => b.textContent = 'Copy', 2200);
+  });
+}
+
+/* ══════════════════════════════════════
+   SCROLL REVEAL & INIT
+══════════════════════════════════════ */
 window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => document.getElementById('main-nav').classList.add('visible'), 50);
   document.getElementById('pg-label').classList.add('visible');
   document.querySelectorAll('.hero-line-inner').forEach(el => el.classList.add('visible'));
   document.getElementById('hero-sub').classList.add('visible');
+
+  // Highlight.js
+  setTimeout(() => {
+    if (window.hljs) hljs.highlightElement(document.getElementById('code-el'));
+  }, 120);
 });
 
-/* ── Scroll-triggered reveal ── */
-const obs = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
-  });
-}, { threshold: 0.1 });
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.08 });
 
-['section-title', 'section-desc', 'calc-box'].forEach(id => {
-  const el = document.getElementById(id);
-  if (el) obs.observe(el);
-});
-document.querySelectorAll('.planet-card').forEach(card => obs.observe(card));
-['stats-overview', 'footer'].forEach(id => {
-  const el = document.getElementById(id);
-  if (el) obs.observe(el);
-});
+['section-title','section-desc','calc-box','stats-overview','footer',
+ 'vid-eyebrow','vid-heading','vid-sub','vid-wrap',
+ 'code-intro','code-outer','chips'
+].forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
+
+document.querySelectorAll('.planet-card').forEach(c => obs.observe(c));
 </script>
 </body>
 </html>

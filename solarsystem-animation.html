@@ -1,410 +1,516 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Solar System — Ybrahim</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg: #060810;
-  --surface: #0e1120;
-  --border: #1e2235;
-  --ink: #e8e4f0;
-  --muted: #7a7d99;
-  --accent: #d4522a;
-  --accent2: #4a9eff;
-}
-body {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: 'DM Mono', monospace;
-  font-weight: 300;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-#stars-canvas {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solar System — Ybrahim</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 
-/* ── Nav ── */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.3rem 2.5rem;
-  border-bottom: 1px solid var(--border);
-  background: rgba(6, 8, 16, 0.88);
-  backdrop-filter: blur(14px);
-  opacity: 0;
-  transform: translateY(-20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-nav.visible { opacity: 1; transform: translateY(0); }
-.nav-brand {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 600;
-  font-size: 1.1rem;
-  text-decoration: none;
-  color: var(--ink);
-  letter-spacing: 0.05em;
-}
-.nav-links {
-  display: flex;
-  list-style: none;
-  align-items: center;
-  gap: 0.1rem;
-}
-.nav-links a {
-  display: inline-block;
-  padding: 0.45rem 0.9rem;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.65rem;
-  font-weight: 300;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
-  text-decoration: none;
-  transition: color 0.2s ease;
-  white-space: nowrap;
-}
-.nav-links a:hover { color: var(--accent2); }
-.nav-links a.active { color: var(--accent2); }
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ── Hero ── */
-.hero {
-  min-height: 100vh;
-  padding: 8rem 4rem 4rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-  z-index: 2;
-}
-.page-label {
-  font-size: 0.6rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--accent2);
-  margin-bottom: 1.4rem;
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-  transition-delay: 0.05s;
-}
-.page-label.visible { opacity: 1; transform: translateY(0); }
-.hero-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(3rem, 8vw, 7rem);
-  color: var(--ink);
-  line-height: 1.05;
-}
-.hero-title em { color: var(--accent2); font-style: italic; }
-.hero-line { display: block; overflow: hidden; }
-.hero-line-inner {
-  display: block;
-  opacity: 0;
-  transform: translateY(100%);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.hero-line-inner.visible { opacity: 1; transform: translateY(0); }
-.hero-line:nth-child(1) .hero-line-inner { transition-delay: 0.15s; }
-.hero-line:nth-child(2) .hero-line-inner { transition-delay: 0.32s; }
-.hero-sub {
-  margin-top: 2rem;
-  font-size: 0.7rem;
-  line-height: 1.9;
-  color: var(--muted);
-  max-width: 480px;
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-  transition-delay: 0.55s;
-}
-.hero-sub.visible { opacity: 1; transform: translateY(0); }
+    :root {
+      --bg: #060810;
+      --surface: #0e1120;
+      --border: #1e2235;
+      --ink: #e8e4f0;
+      --muted: #7a7d99;
+      --accent: #d4522a;
+      --accent2: #4a9eff;
+    }
 
-/* ── Age Calculator ── */
-.calculator-section {
-  position: relative;
-  z-index: 2;
-  padding: 0 4rem 5rem;
-  display: flex;
-  justify-content: center;
-}
-.calculator-box {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 2.5rem 3rem;
-  width: 100%;
-  max-width: 640px;
-  text-align: center;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-.calculator-box.visible { opacity: 1; transform: translateY(0); }
-.calculator-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.4rem;
-  font-weight: 400;
-  color: var(--ink);
-  margin-bottom: 0.4rem;
-}
-.calculator-subtitle {
-  font-size: 0.6rem;
-  letter-spacing: 0.12em;
-  color: var(--muted);
-  text-transform: uppercase;
-  margin-bottom: 1.8rem;
-}
-.calculator-row {
-  display: flex;
-  flex-direction: column; /* Force stack for centering */
-  align-items: center;    /* Center horizontally */
-  gap: 1.2rem;
-  justify-content: center;
-}
-.calc-input-wrap {
-  width: 100%;
-  max-width: 300px;
-  position: relative;
-  text-align: center; /* Centered label and input */
-}
-.calc-input-wrap label {
-  display: block;
-  font-size: 0.55rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--accent2);
-  margin-bottom: 0.5rem;
-}
-.calc-input {
-  width: 100%;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 0.75rem 1rem;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.85rem;
-  color: var(--ink);
-  outline: none;
-  text-align: center; /* Center the typed value */
-  transition: border-color 0.2s ease;
-}
-.calc-input:focus { border-color: var(--accent2); }
-.calc-input::placeholder { color: var(--muted); }
-.calc-btn {
-  background: var(--accent2);
-  color: #060810;
-  border: none;
-  border-radius: 4px;
-  padding: 0.75rem 2.5rem;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.65rem;
-  font-weight: 400;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: opacity 0.2s ease, transform 0.15s ease;
-  white-space: nowrap;
-}
-.calc-btn:hover { opacity: 0.85; transform: translateY(-1px); }
-.calc-btn:active { transform: translateY(0); }
-.calc-hint {
-  margin-top: 1rem;
-  font-size: 0.58rem;
-  color: var(--muted);
-  letter-spacing: 0.08em;
-}
-.calc-hint span {
-  color: var(--accent2);
-}
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'DM Mono', monospace;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-/* ── Section Header ── */
-.section-header {
-  position: relative;
-  z-index: 2;
-  padding: 4rem 4rem 3rem;
-  border-top: 1px solid var(--border);
-}
-.section-header h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 400;
-  color: var(--accent2);
-  margin-bottom: 0.8rem;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-.section-header h2.visible { opacity: 1; transform: translateY(0); }
-.section-header p {
-  font-size: 0.7rem;
-  line-height: 1.8;
-  color: var(--muted);
-  max-width: 520px;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-  transition-delay: 0.15s;
-}
-.section-header p.visible { opacity: 1; transform: translateY(0); }
+    #stars-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-/* ── Planet Cards Grid ── */
-.planets-grid {
-  position: relative;
-  z-index: 2;
-  padding: 4rem 4rem 8rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-.planet-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 2rem;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.3s ease;
-}
-.planet-card.visible { opacity: 1; transform: translateY(0); }
-.planet-card:hover { border-color: var(--accent2); }
-.planet-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border);
-}
-.planet-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.6rem;
-  font-weight: 400;
-  color: var(--accent2);
-}
-.planet-type {
-  font-size: 0.58rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.planet-visual {
-  width: 100%;
-  height: 280px;
-  margin-bottom: 1.5rem;
-  border-radius: 4px;
-  overflow: hidden;
-  position: relative;
-  background: #000;
-}
-.planet-visual video,
-.planet-visual img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.planet-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.2rem;
-  margin-bottom: 1.5rem;
-}
-.planet-stat label {
-  display: block;
-  font-size: 0.56rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--accent2);
-  margin-bottom: 0.3rem;
-}
-.planet-stat .value {
-  font-size: 0.75rem;
-  color: var(--ink);
-  font-weight: 400;
-  transition: color 0.3s ease;
-}
-.planet-stat .value.updated {
-  color: var(--accent2);
-}
-.planet-description {
-  font-size: 0.68rem;
-  line-height: 1.7;
-  color: var(--muted);
-  border-top: 1px solid var(--border);
-  padding-top: 1.2rem;
-}
+    /* ── Shared nav (identical across all pages) ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.3rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(6, 8, 16, 0.88);
+      backdrop-filter: blur(14px);
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    nav.visible { opacity: 1; transform: translateY(0); }
 
-/* ── Stats Overview ── */
-.stats-overview {
-  position: relative;
-  z-index: 2;
-  padding: 3rem 4rem;
-  border-top: 1px solid var(--border);
-  display: flex;
-  gap: 3rem;
-  align-items: center;
-  flex-wrap: wrap;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-.stats-overview.visible { opacity: 1; transform: translateY(0); }
-.stat-item label {
-  display: block;
-  font-size: 0.55rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--accent2);
-  margin-bottom: 0.4rem;
-}
-.stat-item .val {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.6rem;
-  color: var(--ink);
-}
-footer {
-  position: relative;
-  z-index: 2;
-  padding: 2rem 4rem;
-  border-top: 1px solid var(--border);
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.6rem;
-  letter-spacing: 0.1em;
-  color: var(--muted);
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-footer.visible { opacity: 1; transform: translateY(0); }
+    .nav-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: 1.1rem;
+      text-decoration: none;
+      color: var(--ink);
+      letter-spacing: 0.05em;
+    }
 
-@media (max-width: 768px) {
-  .planets-grid { grid-template-columns: 1fr; padding: 3rem 2rem 6rem; }
-  .hero { padding: 6rem 2rem 3rem; }
-  .section-header { padding: 4rem 2rem 2rem; }
-  .calculator-section { padding: 0 2rem 4rem; }
-  .calculator-box { padding: 1.8rem; }
-  .stats-overview { padding: 2rem 2rem; gap: 2rem; }
-  footer { flex-direction: column; gap: 0.5rem; padding: 2rem 2rem; }
-}
-</style>
+    .nav-links {
+      display: flex;
+      list-style: none;
+      align-items: center;
+      gap: 0.1rem;
+    }
+
+    .nav-links a {
+      display: inline-block;
+      padding: 0.45rem 0.9rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+      white-space: nowrap;
+    }
+    .nav-links a:hover { color: var(--accent2); }
+    .nav-links a.active { color: var(--accent2); }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      padding: 8rem 4rem 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .page-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 1.4rem;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+      transition-delay: 0.05s;
+    }
+    .page-label.visible { opacity: 1; transform: translateY(0); }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      color: var(--ink);
+      line-height: 1.05;
+    }
+    .hero-title em {
+      color: var(--accent2);
+      font-style: italic;
+    }
+
+    .hero-line { display: block; overflow: hidden; }
+    .hero-line-inner {
+      display: block;
+      opacity: 0;
+      transform: translateY(100%);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hero-line-inner.visible { opacity: 1; transform: translateY(0); }
+    .hero-line:nth-child(1) .hero-line-inner { transition-delay: 0.15s; }
+    .hero-line:nth-child(2) .hero-line-inner { transition-delay: 0.32s; }
+
+    .hero-sub {
+      margin-top: 2rem;
+      font-size: 0.7rem;
+      line-height: 1.9;
+      color: var(--muted);
+      max-width: 480px;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      transition-delay: 0.55s;
+    }
+    .hero-sub.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Video Showcase Section ── */
+    .video-showcase {
+      position: relative;
+      z-index: 2;
+      padding: 6rem 4rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .video-showcase h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 400;
+      color: var(--accent2);
+      margin-bottom: 0.8rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .video-showcase h2.visible { opacity: 1; transform: translateY(0); }
+
+    .video-showcase p {
+      font-size: 0.7rem;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+      transition-delay: 0.15s;
+    }
+    .video-showcase p.visible { opacity: 1; transform: translateY(0); }
+
+    .video-container {
+      position: relative;
+      max-width: 1000px;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+      transition-delay: 0.3s;
+    }
+    .video-container.visible { opacity: 1; transform: translateY(0); }
+
+    .video-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* ── Section Header ── */
+    .section-header {
+      position: relative;
+      z-index: 2;
+      padding: 6rem 4rem 3rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 400;
+      color: var(--accent2);
+      margin-bottom: 0.8rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .section-header h2.visible { opacity: 1; transform: translateY(0); }
+
+    .section-header p {
+      font-size: 0.7rem;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 520px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+      transition-delay: 0.15s;
+    }
+    .section-header p.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Planet Cards Grid ── */
+    .planets-grid {
+      position: relative;
+      z-index: 2;
+      padding: 4rem 4rem 8rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .planet-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2rem;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.3s ease;
+    }
+    .planet-card.visible { opacity: 1; transform: translateY(0); }
+    .planet-card:hover { border-color: var(--accent2); }
+
+    .planet-card:nth-child(1) { transition-delay: 0.05s; }
+    .planet-card:nth-child(2) { transition-delay: 0.1s; }
+    .planet-card:nth-child(3) { transition-delay: 0.15s; }
+    .planet-card:nth-child(4) { transition-delay: 0.2s; }
+    .planet-card:nth-child(5) { transition-delay: 0.25s; }
+    .planet-card:nth-child(6) { transition-delay: 0.3s; }
+    .planet-card:nth-child(7) { transition-delay: 0.35s; }
+    .planet-card:nth-child(8) { transition-delay: 0.4s; }
+    .planet-card:nth-child(9) { transition-delay: 0.45s; }
+
+    .planet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .planet-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      color: var(--accent2);
+    }
+
+    .planet-type {
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .planet-visual {
+      width: 100%;
+      height: 280px;
+      margin-bottom: 1.5rem;
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      background: #000;
+    }
+
+    .planet-visual img,
+    .planet-visual video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .planet-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .planet-stat label {
+      display: block;
+      font-size: 0.56rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 0.3rem;
+    }
+
+    .planet-stat .value {
+      font-size: 0.75rem;
+      color: var(--ink);
+      font-weight: 400;
+    }
+
+    .planet-description {
+      font-size: 0.68rem;
+      line-height: 1.7;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding-top: 1.2rem;
+    }
+
+    /* ── Python Script Section ── */
+    .script-section {
+      position: relative;
+      z-index: 2;
+      padding: 6rem 4rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .script-section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 400;
+      color: var(--accent2);
+      margin-bottom: 0.8rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .script-section h2.visible { opacity: 1; transform: translateY(0); }
+
+    .script-section p {
+      font-size: 0.7rem;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 620px;
+      margin-bottom: 2rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+      transition-delay: 0.15s;
+    }
+    .script-section p.visible { opacity: 1; transform: translateY(0); }
+
+    .code-container {
+      position: relative;
+      max-width: 1200px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2rem;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+      transition-delay: 0.3s;
+    }
+    .code-container.visible { opacity: 1; transform: translateY(0); }
+
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .code-title {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--accent2);
+    }
+
+    .copy-btn {
+      padding: 0.5rem 1rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .copy-btn:hover {
+      color: var(--accent2);
+      border-color: var(--accent2);
+    }
+
+    .code-block {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.5rem;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+
+    .code-block pre {
+      margin: 0;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      line-height: 1.6;
+      color: var(--ink);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .code-block pre code {
+      color: var(--ink);
+    }
+
+    /* ── Stats Overview ── */
+    .stats-overview {
+      position: relative;
+      z-index: 2;
+      padding: 3rem 4rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 3rem;
+      align-items: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .stats-overview.visible { opacity: 1; transform: translateY(0); }
+
+    .stat-item label {
+      display: block;
+      font-size: 0.55rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 0.4rem;
+    }
+    .stat-item .val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      color: var(--ink);
+    }
+
+    footer {
+      position: relative;
+      z-index: 2;
+      padding: 2rem 4rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    footer.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      .planets-grid {
+        grid-template-columns: 1fr;
+        padding: 3rem 2rem 6rem;
+      }
+      .hero {
+        padding: 6rem 2rem 3rem;
+      }
+      .section-header, .video-showcase, .script-section {
+        padding: 4rem 2rem 2rem;
+      }
+      .stats-overview {
+        padding: 2rem 2rem;
+        gap: 2rem;
+      }
+      footer {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 2rem 2rem;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -421,26 +527,25 @@ footer.visible { opacity: 1; transform: translateY(0); }
 </nav>
 
 <div class="hero">
-  <p class="page-label" id="pg-label">Project — 02 / Interactive Visualization</p>
+  <p class="page-label" id="pg-label">Project — 02 / 3D Modeling & Animation</p>
   <h1 class="hero-title">
     <span class="hero-line"><span class="hero-line-inner">Celestial Bodies &</span></span>
     <span class="hero-line"><span class="hero-line-inner"><em>Orbital Dynamics</em></span></span>
   </h1>
-  <p class="hero-sub" id="hero-sub">An interactive model of our solar system — orbits, periods, and scale rendered with scientific precision. Motion as mathematics, space as canvas.</p>
+  <p class="hero-sub" id="hero-sub">A fully modeled and animated solar system built in Blender, featuring orbital motion, realistic textures, and Python-automated camera sequences.</p>
 </div>
 
-<div class="calculator-section">
-  <div class="calculator-box" id="calc-box">
-    <div class="calculator-title">Calculate Time & Motion</div>
-    <div class="calculator-subtitle">Enter your age in Earth years</div>
-    <div class="calculator-row">
-      <div class="calc-input-wrap">
-        <label for="user-earth-age">Your Age — Earth Years</label>
-        <input class="calc-input" type="number" id="user-earth-age" min="0" max="200" placeholder="e.g. 19" />
-      </div>
-      <button class="calc-btn" onclick="calculateAges()">Calculate</button>
-    </div>
-    <p class="calc-hint">↳ Updates <span>age, revolutions & orbital period</span> across all planet cards</p>
+<!-- YouTube Video Showcase -->
+<div class="video-showcase">
+  <h2 id="video-title">Rendered Animation</h2>
+  <p id="video-desc">The complete 3D solar system animation — 2 minutes of scripted camera movements, orbital mechanics, and cinematic transitions rendered in Blender.</p>
+  <div class="video-container" id="video-container">
+    <iframe 
+      src="https://www.youtube.com/embed/4uycvBYdF9k" 
+      title="Solar System 3D Animation" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+      allowfullscreen>
+    </iframe>
   </div>
 </div>
 
@@ -450,197 +555,781 @@ footer.visible { opacity: 1; transform: translateY(0); }
 </div>
 
 <div class="planets-grid" id="planets-grid">
-
+  
+  <!-- Sun -->
   <div class="planet-card">
     <div class="planet-header">
       <h3 class="planet-name">Sun</h3>
       <span class="planet-type">Star</span>
     </div>
     <div class="planet-visual">
-      <video autoplay loop muted playsinline>
-        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Sun.mp4" type="video/mp4">
+      <video class="planet-video" loop muted playsinline>
+        <source src="Planets/8.Sun.mp4" type="video/mp4">
+        Your browser does not support the video tag.
       </video>
     </div>
     <div class="planet-stats">
-      <div class="planet-stat"><label>Age</label><div class="value" id="sun-age">4.6 billion years</div></div>
-      <div class="planet-stat"><label>Type</label><div class="value">G-type Main Sequence</div></div>
-      <div class="planet-stat"><label>Mass</label><div class="value">1.989 × 10³⁰ kg</div></div>
-      <div class="planet-stat"><label>Diameter</label><div class="value">1.392 million km</div></div>
+      <div class="planet-stat">
+        <label>Age</label>
+        <div class="value">4.6 billion years</div>
+      </div>
+      <div class="planet-stat">
+        <label>Type</label>
+        <div class="value">G-type Main Sequence</div>
+      </div>
+      <div class="planet-stat">
+        <label>Mass</label>
+        <div class="value">1.989 × 10³⁰ kg</div>
+      </div>
+      <div class="planet-stat">
+        <label>Diameter</label>
+        <div class="value">1.392 million km</div>
+      </div>
     </div>
     <p class="planet-description">Our star, the Sun, is a massive ball of plasma that provides the energy needed for life on Earth through nuclear fusion.</p>
   </div>
 
+  <!-- Mercury -->
   <div class="planet-card">
     <div class="planet-header">
       <h3 class="planet-name">Mercury</h3>
       <span class="planet-type">Terrestrial</span>
     </div>
     <div class="planet-visual">
-      <video autoplay loop muted playsinline>
-        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Mercury.mp4" type="video/mp4">
+      <video class="planet-video" loop muted playsinline>
+        <source src="Planets/4.Mercury.mp4" type="video/mp4">
+        Your browser does not support the video tag.
       </video>
     </div>
     <div class="planet-stats">
-      <div class="planet-stat"><label>Age</label><div class="value" id="mercury-age">4.5 billion years</div></div>
-      <div class="planet-stat"><label>Revolutions</label><div class="value" id="mercury-rev">—</div></div>
-      <div class="planet-stat"><label>Orbital Period</label><div class="value" id="mercury-orb">88 Earth days</div></div>
-      <div class="planet-stat"><label>Distance from Sun</label><div class="value">57.9 million km</div></div>
+      <div class="planet-stat">
+        <label>Age</label>
+        <div class="value">4.5 billion years</div>
+      </div>
+      <div class="planet-stat">
+        <label>Revolution</label>
+        <div class="value">88 days</div>
+      </div>
+      <div class="planet-stat">
+        <label>Orbital Period</label>
+        <div class="value">88 Earth days</div>
+      </div>
+      <div class="planet-stat">
+        <label>Distance from Sun</label>
+        <div class="value">57.9 million km</div>
+      </div>
     </div>
     <p class="planet-description">The smallest and innermost planet, Mercury has extreme temperature variations and a surface scarred by countless impact craters.</p>
   </div>
 
+  <!-- Venus -->
   <div class="planet-card">
     <div class="planet-header">
       <h3 class="planet-name">Venus</h3>
       <span class="planet-type">Terrestrial</span>
     </div>
     <div class="planet-visual">
-      <video autoplay loop muted playsinline>
-        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Venus.mp4" type="video/mp4">
+      <video class="planet-video" loop muted playsinline>
+        <source src="Planets/3.Venus.mp4" type="video/mp4">
+        Your browser does not support the video tag.
       </video>
     </div>
     <div class="planet-stats">
-      <div class="planet-stat"><label>Age</label><div class="value" id="venus-age">4.5 billion years</div></div>
-      <div class="planet-stat"><label>Revolutions</label><div class="value" id="venus-rev">—</div></div>
-      <div class="planet-stat"><label>Orbital Period</label><div class="value" id="venus-orb">225 Earth days</div></div>
-      <div class="planet-stat"><label>Distance from Sun</label><div class="value">108.2 million km</div></div>
+      <div class="planet-stat">
+        <label>Age</label>
+        <div class="value">4.5 billion years</div>
+      </div>
+      <div class="planet-stat">
+        <label>Revolution</label>
+        <div class="value">243 days</div>
+      </div>
+      <div class="planet-stat">
+        <label>Orbital Period</label>
+        <div class="value">225 Earth days</div>
+      </div>
+      <div class="planet-stat">
+        <label>Distance from Sun</label>
+        <div class="value">108.2 million km</div>
+      </div>
     </div>
     <p class="planet-description">Often called Earth's twin, Venus is shrouded in thick toxic clouds and has a runaway greenhouse effect making it the hottest planet.</p>
   </div>
 
+  <!-- Earth -->
   <div class="planet-card">
     <div class="planet-header">
       <h3 class="planet-name">Earth</h3>
       <span class="planet-type">Terrestrial (Reference)</span>
     </div>
     <div class="planet-visual">
-      <video autoplay loop muted playsinline>
-        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Earth.mp4" type="video/mp4">
+      <video class="planet-video" loop muted playsinline>
+        <source src="Planets/1.Earth.mp4" type="video/mp4">
+        Your browser does not support the video tag.
       </video>
     </div>
     <div class="planet-stats">
-      <div class="planet-stat"><label>Age</label><div class="value" id="earth-age">4.5 billion years</div></div>
-      <div class="planet-stat"><label>Revolutions</label><div class="value" id="earth-rev">—</div></div>
-      <div class="planet-stat"><label>Orbital Period</label><div class="value" id="earth-orb">365.25 Earth days</div></div>
-      <div class="planet-stat"><label>Distance from Sun</label><div class="value">149.6 million km</div></div>
+      <div class="planet-stat">
+        <label>Age</label>
+        <div class="value">4.5 billion years</div>
+      </div>
+      <div class="planet-stat">
+        <label>Revolution</label>
+        <div class="value">24 hours</div>
+      </div>
+      <div class="planet-stat">
+        <label>Orbital Period</label>
+        <div class="value">365.25 Earth days</div>
+      </div>
+      <div class="planet-stat">
+        <label>Distance from Sun</label>
+        <div class="value">149.6 million km</div>
+      </div>
     </div>
     <p class="planet-description">Our home planet is the only known place in the universe confirmed to host life, with vast oceans and a protective atmosphere.</p>
   </div>
 
+  <!-- Mars -->
   <div class="planet-card">
     <div class="planet-header">
       <h3 class="planet-name">Mars</h3>
       <span class="planet-type">Terrestrial</span>
     </div>
     <div class="planet-visual">
-      <video autoplay loop muted playsinline>
-        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Mars.mp4" type="video/mp4">
+      <video class="planet-video" loop muted playsinline>
+        <source src="Planets/2.Mars.mp4" type="video/mp4">
+        Your browser does not support the video tag.
       </video>
     </div>
     <div class="planet-stats">
-      <div class="planet-stat"><label>Age</label><div class="value" id="mars-age">4.6 billion years</div></div>
-      <div class="planet-stat"><label>Revolutions</label><div class="value" id="mars-rev">—</div></div>
-      <div class="planet-stat"><label>Orbital Period</label><div class="value" id="mars-orb">687 Earth days</div></div>
-      <div class="planet-stat"><label>Distance from Sun</label><div class="value">227.9 million km</div></div>
+      <div class="planet-stat">
+        <label>Age</label>
+        <div class="value">4.6 billion years</div>
+      </div>
+      <div class="planet-stat">
+        <label>Revolution</label>
+        <div class="value">24.6 hours</div>
+      </div>
+      <div class="planet-stat">
+        <label>Orbital Period</label>
+        <div class="value">687 Earth days</div>
+      </div>
+      <div class="planet-stat">
+        <label>Distance from Sun</label>
+        <div class="value">227.9 million km</div>
+      </div>
     </div>
     <p class="planet-description">The Red Planet features the largest volcano in the solar system and polar ice caps that contain frozen water and carbon dioxide.</p>
   </div>
 
+  <!-- Jupiter -->
   <div class="planet-card">
     <div class="planet-header">
       <h3 class="planet-name">Jupiter</h3>
       <span class="planet-type">Gas Giant</span>
     </div>
     <div class="planet-visual">
-      <video autoplay loop muted playsinline>
-        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Jupiter.mp4" type="video/mp4">
+      <video class="planet-video" loop muted playsinline>
+        <source src="Planets/5.Jupiter.mp4" type="video/mp4">
+        Your browser does not support the video tag.
       </video>
     </div>
     <div class="planet-stats">
-      <div class="planet-stat"><label>Age</label><div class="value" id="jupiter-age">4.6 billion years</div></div>
-      <div class="planet-stat"><label>Revolutions</label><div class="value" id="jupiter-rev">—</div></div>
-      <div class="planet-stat"><label>Orbital Period</label><div class="value" id="jupiter-orb">11.86 Earth years</div></div>
-      <div class="planet-stat"><label>Distance from Sun</label><div class="value">778.5 million km</div></div>
+      <div class="planet-stat">
+        <label>Age</label>
+        <div class="value">4.6 billion years</div>
+      </div>
+      <div class="planet-stat">
+        <label>Revolution</label>
+        <div class="value">9.9 hours</div>
+      </div>
+      <div class="planet-stat">
+        <label>Orbital Period</label>
+        <div class="value">11.86 Earth years</div>
+      </div>
+      <div class="planet-stat">
+        <label>Distance from Sun</label>
+        <div class="value">778.5 million km</div>
+      </div>
     </div>
     <p class="planet-description">The largest planet in our solar system, Jupiter's Great Red Spot is a storm larger than Earth that has raged for centuries.</p>
   </div>
 
+  <!-- Saturn -->
   <div class="planet-card">
     <div class="planet-header">
       <h3 class="planet-name">Saturn</h3>
       <span class="planet-type">Gas Giant</span>
     </div>
     <div class="planet-visual">
-      <video autoplay loop muted playsinline>
-       <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Saturn.mp4" type="video/mp4">
-      </video>
+      <img src="https://science.nasa.gov/wp-content/uploads/2023/06/saturn-equinox-pia11141.jpg" alt="Saturn">
     </div>
     <div class="planet-stats">
-      <div class="planet-stat"><label>Age</label><div class="value" id="saturn-age">4.5 billion years</div></div>
-      <div class="planet-stat"><label>Revolutions</label><div class="value" id="saturn-rev">—</div></div>
-      <div class="planet-stat"><label>Orbital Period</label><div class="value" id="saturn-orb">29.46 Earth years</div></div>
-      <div class="planet-stat"><label>Distance from Sun</label><div class="value">1.43 billion km</div></div>
+      <div class="planet-stat">
+        <label>Age</label>
+        <div class="value">4.5 billion years</div>
+      </div>
+      <div class="planet-stat">
+        <label>Revolution</label>
+        <div class="value">10.7 hours</div>
+      </div>
+      <div class="planet-stat">
+        <label>Orbital Period</label>
+        <div class="value">29.46 Earth years</div>
+      </div>
+      <div class="planet-stat">
+        <label>Distance from Sun</label>
+        <div class="value">1.43 billion km</div>
+      </div>
     </div>
     <p class="planet-description">Adorned with spectacular ring systems made of ice and rock, Saturn is the second-largest planet and could float in water.</p>
   </div>
 
+  <!-- Uranus -->
   <div class="planet-card">
     <div class="planet-header">
       <h3 class="planet-name">Uranus</h3>
       <span class="planet-type">Ice Giant</span>
     </div>
     <div class="planet-visual">
-      <video autoplay loop muted playsinline>
-        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Uranus.mp4" type="video/mp4">
+      <video class="planet-video" loop muted playsinline>
+        <source src="Planets/6.Uranus.mp4" type="video/mp4">
+        Your browser does not support the video tag.
       </video>
     </div>
     <div class="planet-stats">
-      <div class="planet-stat"><label>Age</label><div class="value" id="uranus-age">4.5 billion years</div></div>
-      <div class="planet-stat"><label>Revolutions</label><div class="value" id="uranus-rev">—</div></div>
-      <div class="planet-stat"><label>Orbital Period</label><div class="value" id="uranus-orb">84 Earth years</div></div>
-      <div class="planet-stat"><label>Distance from Sun</label><div class="value">2.87 billion km</div></div>
+      <div class="planet-stat">
+        <label>Age</label>
+        <div class="value">4.5 billion years</div>
+      </div>
+      <div class="planet-stat">
+        <label>Revolution</label>
+        <div class="value">17.2 hours</div>
+      </div>
+      <div class="planet-stat">
+        <label>Orbital Period</label>
+        <div class="value">84 Earth years</div>
+      </div>
+      <div class="planet-stat">
+        <label>Distance from Sun</label>
+        <div class="value">2.87 billion km</div>
+      </div>
     </div>
     <p class="planet-description">The tilted ice giant rotates on its side, possibly due to a massive collision in its past, giving it extreme seasonal variations.</p>
   </div>
 
+  <!-- Neptune -->
   <div class="planet-card">
     <div class="planet-header">
       <h3 class="planet-name">Neptune</h3>
       <span class="planet-type">Ice Giant</span>
     </div>
     <div class="planet-visual">
-      <video autoplay loop muted playsinline>
-        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Neptune.mp4" type="video/mp4">
+      <video class="planet-video" loop muted playsinline>
+        <source src="Planets/7.Neptune.mp4" type="video/mp4">
+        Your browser does not support the video tag.
       </video>
     </div>
     <div class="planet-stats">
-      <div class="planet-stat"><label>Age</label><div class="value" id="neptune-age">4.5 billion years</div></div>
-      <div class="planet-stat"><label>Revolutions</label><div class="value" id="neptune-rev">—</div></div>
-      <div class="planet-stat"><label>Orbital Period</label><div class="value" id="neptune-orb">164.8 Earth years</div></div>
-      <div class="planet-stat"><label>Distance from Sun</label><div class="value">4.50 billion km</div></div>
+      <div class="planet-stat">
+        <label>Age</label>
+        <div class="value">4.5 billion years</div>
+      </div>
+      <div class="planet-stat">
+        <label>Revolution</label>
+        <div class="value">16.1 hours</div>
+      </div>
+      <div class="planet-stat">
+        <label>Orbital Period</label>
+        <div class="value">164.8 Earth years</div>
+      </div>
+      <div class="planet-stat">
+        <label>Distance from Sun</label>
+        <div class="value">4.50 billion km</div>
+      </div>
     </div>
     <p class="planet-description">The outermost planet features the fastest winds in the solar system and a deep blue color from methane in its atmosphere.</p>
   </div>
 
-  <div class="planet-card">
-    <div class="planet-header">
-      <h3 class="planet-name">Pluto</h3>
-      <span class="planet-type">Dwarf Planet</span>
-    </div>
-    <div class="planet-visual">
-      <video autoplay loop muted playsinline>
-        <source src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/Planets/Pluto.mp4" type="video/mp4">
-      </video>
-    </div>
-    <div class="planet-stats">
-      <div class="planet-stat"><label>Age</label><div class="value" id="pluto-age">4.5 billion years</div></div>
-      <div class="planet-stat"><label>Revolutions</label><div class="value" id="pluto-rev">—</div></div>
-      <div class="planet-stat"><label>Orbital Period</label><div class="value" id="pluto-orb">248 Earth years</div></div>
-      <div class="planet-stat"><label>Distance from Sun</label><div class="value">5.91 billion km</div></div>
-    </div>
-    <p class="planet-description">Once classified as the ninth planet, this icy dwarf world has a heart-shaped glacier and orbits in the distant Kuiper Belt beyond Neptune.</p>
-  </div>
+</div>
 
+<!-- Python Script Section -->
+<div class="script-section">
+  <h2 id="script-title">Blender Python Script</h2>
+  <p id="script-desc">The automation script used to generate camera movements, orbital animations, and timeline markers for the 2-minute cinematic sequence. Written for Blender 5.1 with camera-fix compatibility.</p>
+  <div class="code-container" id="code-container">
+    <div class="code-header">
+      <span class="code-title">solar_system_cinematic.py</span>
+      <button class="copy-btn" onclick="copyCode()">Copy Code</button>
+    </div>
+    <div class="code-block">
+      <pre><code id="python-code">"""
+Solar System Animation Script — Blender 5.1  (Camera-Fix Edition)
+==================================================================
+FIXES IN THIS VERSION:
+  • SOLAR_CAM renamed to "Camera" to match your actual scene object.
+  • setup_overview_camera() uses your exact N-panel coordinates.
+  • scene.camera is explicitly set so the Camera appears in the timeline.
+  • Marker at frame 1 is force-created directly (bypasses add_cam_marker
+    silent-fail bug).
+  • Outro marker also force-created the same way.
+"""
+
+import bpy
+import math
+from mathutils import Vector
+
+# ─────────────────────────────────────────────────────────────────
+#  SETTINGS
+# ─────────────────────────────────────────────────────────────────
+
+FPS           = 24
+TOTAL_FRAMES  = 2880          # exactly 2 minutes
+
+INTRO_FRAMES  = 200           # wide solar-system overview
+VISIT_FRAMES  = 240           # time parked near each planet
+TRANS_FRAMES  = 20            # cut/blend between cameras
+OUTRO_FRAMES  = 200           # pull back to wide at the end
+
+# Planet visit order  (must match object names in your scene)
+PLANET_ORDER = [
+    "Mercury", "Venus", "Earth", "Mars",
+    "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto",
+]
+
+SOLAR_CAM = "Camera"          # ← matches your actual scene camera name
+
+# ── Camera field-of-view ─────────────────────────────────────────
+CAM_FOV   = 50.0   # degrees — applied to every planet camera
+SOLAR_FOV = 60.0   # degrees — overview camera
+
+# ── Framing padding ──────────────────────────────────────────────
+FRAME_PAD = {
+    "Mercury": 1.6,
+    "Venus":   1.7,
+    "Earth":   1.8,
+    "Mars":    1.7,
+    "Jupiter": 2.0,
+    "Saturn":  2.5,
+    "Uranus":  1.9,
+    "Neptune": 1.9,
+    "Pluto":   1.5,
+}
+
+# Camera angle offsets
+CAM_OFFSETS = {
+    "Mercury": {"elev": 20, "side": 30},
+    "Venus":   {"elev": 18, "side": 25},
+    "Earth":   {"elev": 22, "side": 35},
+    "Mars":    {"elev": 18, "side": 28},
+    "Jupiter": {"elev": 25, "side": 40},
+    "Saturn":  {"elev": 32, "side": 35},
+    "Uranus":  {"elev": 20, "side": 30},
+    "Neptune": {"elev": 20, "side": 30},
+    "Pluto":   {"elev": 15, "side": 20},
+}
+
+# Depth-of-field f-stop per planet
+DOF_FSTOP = {
+    "Mercury": 2.4, "Venus": 2.8, "Earth": 2.4, "Mars": 2.4,
+    "Jupiter": 3.5, "Saturn": 3.5, "Uranus": 2.8, "Neptune": 2.8,
+    "Pluto": 2.0,
+}
+
+# ─────────────────────────────────────────────────────────────────
+#  BLENDER 5.1 COMPATIBLE FCURVE ITERATOR
+# ─────────────────────────────────────────────────────────────────
+
+def iter_fcurves(action):
+    if hasattr(action, 'layers'):
+        for layer in action.layers:
+            for strip in layer.strips:
+                if hasattr(action, 'slots'):
+                    for slot in action.slots:
+                        try:
+                            cb = strip.channelbag(slot)
+                            if cb:
+                                yield from cb.fcurves
+                        except Exception:
+                            pass
+                if hasattr(strip, 'fcurves'):
+                    yield from strip.fcurves
+        return
+    if hasattr(action, 'fcurves'):
+        yield from action.fcurves
+
+# ─────────────────────────────────────────────────────────────────
+#  HELPER UTILITIES
+# ─────────────────────────────────────────────────────────────────
+
+def obj(name):
+    o = bpy.data.objects.get(name)
+    if o is None:
+        print(f"  [WARNING] Object '{name}' not found.")
+    return o
+
+
+def goto(frame):
+    bpy.context.scene.frame_set(frame)
+
+
+def world_pos(ob):
+    goto(bpy.context.scene.frame_current)
+    return ob.matrix_world.translation.copy()
+
+
+def look_at(cam_ob, target: Vector):
+    direction = target - cam_ob.location
+    if direction.length < 1e-6:
+        return
+    cam_ob.rotation_euler = direction.to_track_quat('-Z', 'Y').to_euler()
+
+
+def kf_loc_rot(ob, frame):
+    ob.keyframe_insert(data_path="location",       frame=frame)
+    ob.keyframe_insert(data_path="rotation_euler", frame=frame)
+
+
+def force_cam_marker(cam_ob, frame):
+    """Directly create a camera marker — never fails silently."""
+    scene = bpy.context.scene
+    # Remove any existing marker at this exact frame
+    for m in [m for m in scene.timeline_markers if m.frame == frame]:
+        scene.timeline_markers.remove(m)
+    mk        = scene.timeline_markers.new(name=cam_ob.name, frame=frame)
+    mk.camera = cam_ob
+    print(f"    [Marker] {cam_ob.name} @ frame {frame}")
+
+
+def add_cam_marker(cam_name, frame):
+    cam_ob = obj(cam_name)
+    if cam_ob is None:
+        return
+    force_cam_marker(cam_ob, frame)
+
+
+def smooth_cam(cam_ob):
+    anim = cam_ob.animation_data
+    if anim is None or anim.action is None:
+        return
+    count = 0
+    for fc in iter_fcurves(anim.action):
+        for kp in fc.keyframe_points:
+            kp.interpolation      = 'BEZIER'
+            kp.handle_left_type  = 'AUTO_CLAMPED'
+            kp.handle_right_type = 'AUTO_CLAMPED'
+        count += len(fc.keyframe_points)
+    print(f"    Smoothed {count} keyframe points on {cam_ob.name}")
+
+
+# ─────────────────────────────────────────────────────────────────
+#  PLANET SIZE → CAMERA DISTANCE
+# ─────────────────────────────────────────────────────────────────
+
+def get_planet_radius(ob):
+    if ob is None:
+        return 1.0
+    try:
+        bbox_world = [ob.matrix_world @ Vector(c) for c in ob.bound_box]
+        centre     = sum(bbox_world, Vector()) / 8.0
+        radius     = max((c - centre).length for c in bbox_world)
+        return max(radius, 0.05)
+    except Exception as e:
+        print(f"    [WARNING] Could not get radius for {ob.name}: {e}")
+        return 1.0
+
+
+def calc_safe_dist(planet_ob, fov_deg, padding=1.8):
+    radius   = get_planet_radius(planet_ob)
+    half_fov = math.radians(fov_deg / 2.0)
+    dist     = (radius / math.tan(half_fov)) * padding
+    return max(dist, radius * 1.05)
+
+
+def set_cam_fov(cam_ob, fov_deg):
+    if cam_ob is None or cam_ob.data is None:
+        return
+    cam_ob.data.angle = math.radians(fov_deg)
+
+
+# ─────────────────────────────────────────────────────────────────
+#  OFFSET VECTOR
+# ─────────────────────────────────────────────────────────────────
+
+def cam_offset_vector(planet_pos: Vector, dist, elev_deg, side_deg):
+    elev = math.radians(elev_deg)
+    side = math.radians(side_deg)
+
+    sun_to_planet = planet_pos.copy()
+    sun_to_planet.z = 0
+    if sun_to_planet.length > 1e-6:
+        sun_to_planet.normalize()
+    else:
+        sun_to_planet = Vector((1, 0, 0))
+
+    perp     = Vector((-sun_to_planet.y, sun_to_planet.x, 0))
+    radial   = sun_to_planet * math.cos(elev) * math.cos(side)
+    lateral  = perp          * math.cos(elev) * math.sin(side)
+    vertical = Vector((0, 0, math.sin(elev)))
+
+    return planet_pos + (radial + lateral + vertical).normalized() * dist
+
+
+# ─────────────────────────────────────────────────────────────────
+#  STEP 1 — SCENE SETUP
+# ─────────────────────────────────────────────────────────────────
+
+def setup_scene():
+    scene = bpy.context.scene
+    scene.frame_start = 1
+    scene.frame_end   = TOTAL_FRAMES
+    scene.render.fps  = FPS
+    scene.render.resolution_x          = 1920
+    scene.render.resolution_y          = 1080
+    scene.render.resolution_percentage = 100
+    print(f"[Scene] {TOTAL_FRAMES} frames @ {FPS} fps = {TOTAL_FRAMES / FPS:.1f} sec")
+
+
+# ─────────────────────────────────────────────────────────────────
+#  STEP 2 — WIDE OVERVIEW CAMERA  (intro & outro)
+# ─────────────────────────────────────────────────────────────────
+
+def setup_overview_camera():
+    cam = obj(SOLAR_CAM)
+    if cam is None:
+        return
+
+    set_cam_fov(cam, SOLAR_FOV)
+
+    # ── Exact coordinates from your N panel ──────────────────────
+    start_loc = Vector((27.923, -203.09, 87.105))
+    start_rot = (math.radians(65.574), math.radians(2.5453), math.radians(6.8489))
+
+    # Gentle zoom-in during intro (same angle, slightly closer)
+    end_loc = Vector((18.0, -130.0, 56.0))
+    end_rot = start_rot
+
+    # Outro pulls back to starting position
+    outro_loc = Vector((27.923, -203.09, 87.105))
+    outro_rot = start_rot
+
+    # --- INTRO -------------------------------------------------------
+    goto(1)
+    cam.location       = start_loc
+    cam.rotation_euler = start_rot
+    kf_loc_rot(cam, 1)
+
+    goto(INTRO_FRAMES)
+    cam.location       = end_loc
+    cam.rotation_euler = end_rot
+    kf_loc_rot(cam, INTRO_FRAMES)
+
+    # --- OUTRO -------------------------------------------------------
+    outro_start = TOTAL_FRAMES - OUTRO_FRAMES
+    goto(outro_start)
+    cam.location       = end_loc
+    cam.rotation_euler = end_rot
+    kf_loc_rot(cam, outro_start)
+
+    goto(TOTAL_FRAMES)
+    cam.location       = outro_loc
+    cam.rotation_euler = outro_rot
+    kf_loc_rot(cam, TOTAL_FRAMES)
+
+    smooth_cam(cam)
+
+    # ── Make this the active scene camera & add frame-1 marker ───
+    bpy.context.scene.camera = cam
+    force_cam_marker(cam, 1)
+
+    print(f"[{SOLAR_CAM}] Overview camera set. Scene camera = {cam.name}")
+
+
+# ─────────────────────────────────────────────────────────────────
+#  STEP 3 — PLANET CAMERA VISITS
+# ─────────────────────────────────────────────────────────────────
+
+def setup_planet_visits():
+    scene = bpy.context.scene
+
+    # Remove ALL existing camera markers so we start clean
+    for m in [m for m in scene.timeline_markers if m.camera is not None]:
+        scene.timeline_markers.remove(m)
+
+    # Re-add the frame-1 overview marker after clearing
+    cam_ob = obj(SOLAR_CAM)
+    if cam_ob:
+        force_cam_marker(cam_ob, 1)
+
+    current = INTRO_FRAMES + 1
+
+    for planet_name in PLANET_ORDER:
+        cam_name = planet_name + "_Camera"
+        cam      = obj(cam_name)
+        planet   = obj(planet_name)
+
+        if cam is None or planet is None:
+            print(f"  [SKIP] {planet_name} — camera or planet not found.")
+            current += VISIT_FRAMES + TRANS_FRAMES
+            continue
+
+        set_cam_fov(cam, CAM_FOV)
+
+        offsets = CAM_OFFSETS[planet_name]
+        elev    = offsets["elev"]
+        side    = offsets["side"]
+        pad     = FRAME_PAD[planet_name]
+
+        # ── Arrival ──────────────────────────────────────────────
+        arr_frame = current
+        goto(arr_frame)
+        bpy.context.view_layer.update()
+        p_pos    = planet.matrix_world.translation.copy()
+        dist     = calc_safe_dist(planet, CAM_FOV, padding=pad)
+        arr_loc  = cam_offset_vector(p_pos, dist * 1.35, elev + 10, side - 20)
+        cam.location = arr_loc
+        look_at(cam, p_pos)
+        kf_loc_rot(cam, arr_frame)
+
+        # ── Mid arc ──────────────────────────────────────────────
+        mid_frame = current + VISIT_FRAMES // 2
+        goto(mid_frame)
+        bpy.context.view_layer.update()
+        p_pos_mid = planet.matrix_world.translation.copy()
+        dist_mid  = calc_safe_dist(planet, CAM_FOV, padding=pad)
+        mid_loc   = cam_offset_vector(p_pos_mid, dist_mid, elev, side + 15)
+        cam.location = mid_loc
+        look_at(cam, p_pos_mid)
+        kf_loc_rot(cam, mid_frame)
+
+        # ── Departure ────────────────────────────────────────────
+        dep_frame = current + VISIT_FRAMES
+        goto(dep_frame)
+        bpy.context.view_layer.update()
+        p_pos_dep = planet.matrix_world.translation.copy()
+        dist_dep  = calc_safe_dist(planet, CAM_FOV, padding=pad)
+        dep_loc   = cam_offset_vector(p_pos_dep, dist_dep * 1.2, elev - 8, side + 40)
+        cam.location = dep_loc
+        look_at(cam, p_pos_dep)
+        kf_loc_rot(cam, dep_frame)
+
+        force_cam_marker(cam, arr_frame)
+        smooth_cam(cam)
+
+        radius = get_planet_radius(planet)
+        print(f"  [{planet_name}]  radius={radius:.2f}  dist={dist:.2f}  "
+              f"frames {arr_frame}–{dep_frame}")
+
+        current = dep_frame + TRANS_FRAMES
+
+    # Outro — switch back to overview camera
+    outro_start = TOTAL_FRAMES - OUTRO_FRAMES
+    cam_ob = obj(SOLAR_CAM)
+    if cam_ob:
+        force_cam_marker(cam_ob, outro_start)
+    print(f"[Outro] {SOLAR_CAM} resumes @ frame {outro_start}")
+    print(f"[Timeline] Final frame used: {current} / {TOTAL_FRAMES}")
+
+
+# ─────────────────────────────────────────────────────────────────
+#  STEP 4 — DEPTH OF FIELD
+# ─────────────────────────────────────────────────────────────────
+
+def setup_dof():
+    for planet_name in PLANET_ORDER:
+        cam_name = planet_name + "_Camera"
+        cam_ob   = obj(cam_name)
+        planet   = obj(planet_name)
+        if cam_ob is None or planet is None:
+            continue
+        cam_data = cam_ob.data
+        cam_data.dof.use_dof        = True
+        cam_data.dof.focus_object   = planet
+        cam_data.dof.aperture_fstop = DOF_FSTOP.get(planet_name, 2.8)
+        print(f"  [DoF] {cam_name} → focus {planet_name}  f/{DOF_FSTOP[planet_name]}")
+    print("[DoF] All planet cameras configured.")
+
+
+# ─────────────────────────────────────────────────────────────────
+#  STEP 5 — EXTEND ORBIT ANIMATIONS
+# ─────────────────────────────────────────────────────────────────
+
+def extend_orbit_animations():
+    orbit_names = [p + "_Orbit" for p in PLANET_ORDER]
+    for orbit_name in orbit_names:
+        orbit_ob = bpy.data.objects.get(orbit_name)
+        if orbit_ob is None:
+            continue
+        anim_data = orbit_ob.animation_data
+        if anim_data is None:
+            continue
+        for track in anim_data.nla_tracks:
+            for strip in track.strips:
+                length = max((strip.frame_end - strip.frame_start), 1)
+                strip.repeat        = TOTAL_FRAMES / length
+                strip.frame_end     = TOTAL_FRAMES
+                strip.extrapolation = 'HOLD'
+                print(f"  [NLA] {orbit_name} → extended to frame {TOTAL_FRAMES}")
+    print("[NLA] Orbit animation strips extended.")
+
+
+# ─────────────────────────────────────────────────────────────────
+#  STEP 6 — TIMELINE REPORT
+# ─────────────────────────────────────────────────────────────────
+
+def print_timeline_report():
+    current = INTRO_FRAMES + 1
+    print("\n" + "─" * 60)
+    print("  TIMELINE REPORT")
+    print("─" * 60)
+    print(f"  Frames 1–{INTRO_FRAMES}  : Intro  ({SOLAR_CAM})")
+    for planet_name in PLANET_ORDER:
+        end    = current + VISIT_FRAMES
+        secs_s = current / FPS
+        secs_e = end     / FPS
+        planet = bpy.data.objects.get(planet_name)
+        r      = get_planet_radius(planet) if planet else 0
+        goto(current)
+        if planet:
+            bpy.context.view_layer.update()
+        dist = calc_safe_dist(planet, CAM_FOV, FRAME_PAD[planet_name]) if planet else 0
+        print(f"  Frames {current:4d}–{end:4d} : {planet_name:<8s}  "
+              f"({secs_s:.1f}s–{secs_e:.1f}s)  "
+              f"radius={r:.2f}  cam_dist≈{dist:.2f}")
+        current = end + TRANS_FRAMES
+    outro_start = TOTAL_FRAMES - OUTRO_FRAMES
+    print(f"  Frames {outro_start}–{TOTAL_FRAMES} : Outro   ({SOLAR_CAM})")
+    print(f"\n  Total: {TOTAL_FRAMES} frames = {TOTAL_FRAMES / FPS:.1f} seconds")
+    print("─" * 60 + "\n")
+    goto(1)
+
+
+# ─────────────────────────────────────────────────────────────────
+#  MAIN
+# ─────────────────────────────────────────────────────────────────
+
+def main():
+    print("\n" + "=" * 60)
+    print("  SOLAR SYSTEM ANIMATION — Blender 5.1  (Camera-Fix)")
+    print("=" * 60 + "\n")
+
+    setup_scene()
+    extend_orbit_animations()
+    setup_overview_camera()    # sets scene.camera + frame-1 marker
+    setup_planet_visits()      # planet camera markers
+    setup_dof()
+    print_timeline_report()
+
+    goto(1)
+
+    print("=" * 60)
+    print("  DONE!  Press SPACE to preview, Ctrl+F12 to render.")
+    print(f"  Duration: {TOTAL_FRAMES} frames = {TOTAL_FRAMES / FPS:.1f} sec @ {FPS} fps")
+    print("=" * 60 + "\n")
+
+
+main()</code></pre>
+    </div>
+  </div>
 </div>
 
 <div class="stats-overview" id="stats-overview">
@@ -656,123 +1345,130 @@ footer.visible { opacity: 1; transform: translateY(0); }
 </footer>
 
 <script>
-/* ── Planet data: orbital periods in Earth years ── */
-const planets = {
-  mercury: { orbitalYears: 88 / 365.25,    orbLabel: '88 Earth days' },
-  venus:   { orbitalYears: 224.7 / 365.25, orbLabel: '225 Earth days' },
-  earth:   { orbitalYears: 1,               orbLabel: '365.25 Earth days' },
-  mars:    { orbitalYears: 1.881,            orbLabel: '687 Earth days' },
-  jupiter: { orbitalYears: 11.86,            orbLabel: '11.86 Earth years' },
-  saturn:  { orbitalYears: 29.46,            orbLabel: '29.46 Earth years' },
-  uranus:  { orbitalYears: 84.01,            orbLabel: '84 Earth years' },
-  neptune: { orbitalYears: 164.8,            orbLabel: '164.8 Earth years' },
-  pluto:   { orbitalYears: 248,              orbLabel: '248 Earth years' },
-};
+  /* Stars Background */
+  const canvas = document.getElementById('stars-canvas');
+  const ctx = canvas.getContext('2d');
+  let stars = [], tick = 0;
+  
+  function resize() { 
+    canvas.width = window.innerWidth; 
+    canvas.height = window.innerHeight; 
+    initStars(); 
+  }
+  
+  function initStars() {
+    stars = [];
+    const count = Math.floor((canvas.width * canvas.height) / 3000);
+    for (let i = 0; i < count; i++) {
+      stars.push({ 
+        x: Math.random() * canvas.width, 
+        y: Math.random() * canvas.height, 
+        r: Math.random() * 1.4 + 0.2, 
+        alpha: Math.random() * 0.7 + 0.2, 
+        speed: Math.random() * 0.003 + 0.001, 
+        phase: Math.random() * Math.PI * 2 
+      });
+    }
+  }
+  
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    tick += 0.016;
+    for (const s of stars) {
+      const a = s.alpha * (0.6 + 0.4 * Math.sin(tick * s.speed * 60 + s.phase));
+      ctx.beginPath(); 
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.globalAlpha = a; 
+      ctx.fillStyle = '#c8d2ff'; 
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
+  }
+  
+  resize(); 
+  draw();
+  window.addEventListener('resize', resize);
 
-function flash(el) {
-  el.classList.remove('updated');
-  void el.offsetWidth; 
-  el.classList.add('updated');
-  setTimeout(() => el.classList.remove('updated'), 1200);
-}
-
-function setVal(id, text) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.textContent = text;
-  flash(el);
-}
-
-function calculateAges() {
-  const raw = parseFloat(document.getElementById('user-earth-age').value);
-  if (isNaN(raw) || raw < 0) return;
-
-  const earthYears = raw;
-
-  /* Iterate through planet objects */
-  Object.entries(planets).forEach(([key, data]) => {
-    const revolutions = earthYears / data.orbitalYears;
-    const ageOnPlanet  = earthYears / data.orbitalYears;
-
-    setVal(`${key}-age`, ageOnPlanet.toFixed(2) + ` yrs (${key} time)`);
-    setVal(`${key}-rev`, revolutions.toFixed(2) + ' orbits');
-    setVal(`${key}-orb`, data.orbLabel);
+  /* Video hover-to-play functionality */
+  document.addEventListener('DOMContentLoaded', () => {
+    const planetVideos = document.querySelectorAll('.planet-video');
+    
+    planetVideos.forEach(video => {
+      const container = video.closest('.planet-visual');
+      
+      container.addEventListener('mouseenter', function() {
+        video.play();
+      });
+      
+      container.addEventListener('mouseleave', function() {
+        video.pause();
+        video.currentTime = 0; // Reset to beginning
+      });
+    });
   });
 
-  /* Scroll to cards */
-  document.getElementById('planets-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-/* Allow Enter key to trigger calculate */
-document.getElementById('user-earth-age').addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') calculateAges();
-});
-
-/* ── Stars Background ── */
-const canvas = document.getElementById('stars-canvas');
-const ctx = canvas.getContext('2d');
-let stars = [], tick = 0;
-function resize() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  initStars();
-}
-function initStars() {
-  stars = [];
-  const count = Math.floor((canvas.width * canvas.height) / 3000);
-  for (let i = 0; i < count; i++) {
-    stars.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 1.4 + 0.2,
-      alpha: Math.random() * 0.7 + 0.2,
-      speed: Math.random() * 0.003 + 0.001,
-      phase: Math.random() * Math.PI * 2
+  /* Copy code functionality */
+  function copyCode() {
+    const code = document.getElementById('python-code').textContent;
+    navigator.clipboard.writeText(code).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      const originalText = btn.textContent;
+      btn.textContent = 'Copied!';
+      btn.style.color = 'var(--accent2)';
+      btn.style.borderColor = 'var(--accent2)';
+      setTimeout(() => {
+        btn.textContent = originalText;
+        btn.style.color = '';
+        btn.style.borderColor = '';
+      }, 2000);
     });
   }
-}
-function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  tick += 0.016;
-  for (const s of stars) {
-    const a = s.alpha * (0.6 + 0.4 * Math.sin(tick * s.speed * 60 + s.phase));
-    ctx.beginPath();
-    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-    ctx.globalAlpha = a;
-    ctx.fillStyle = '#c8d2ff';
-    ctx.fill();
-  }
-  ctx.globalAlpha = 1;
-  requestAnimationFrame(draw);
-}
-resize();
-draw();
-window.addEventListener('resize', resize);
 
-/* ── Slide-in animations on load ── */
-window.addEventListener('DOMContentLoaded', () => {
-  setTimeout(() => document.getElementById('main-nav').classList.add('visible'), 50);
-  document.getElementById('pg-label').classList.add('visible');
-  document.querySelectorAll('.hero-line-inner').forEach(el => el.classList.add('visible'));
-  document.getElementById('hero-sub').classList.add('visible');
-});
-
-/* ── Scroll-triggered reveal ── */
-const obs = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  /* Slide-in animations on load */
+  window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => document.getElementById('main-nav').classList.add('visible'), 50);
+    document.getElementById('pg-label').classList.add('visible');
+    document.querySelectorAll('.hero-line-inner').forEach(el => el.classList.add('visible'));
+    document.getElementById('hero-sub').classList.add('visible');
   });
-}, { threshold: 0.1 });
 
-['section-title', 'section-desc', 'calc-box'].forEach(id => {
-  const el = document.getElementById(id);
-  if (el) obs.observe(el);
-});
-document.querySelectorAll('.planet-card').forEach(card => obs.observe(card));
-['stats-overview', 'footer'].forEach(id => {
-  const el = document.getElementById(id);
-  if (el) obs.observe(el);
-});
+  /* Scroll-triggered reveal animations */
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { 
+      if (e.isIntersecting) { 
+        e.target.classList.add('visible'); 
+        obs.unobserve(e.target); 
+      } 
+    });
+  }, { threshold: 0.15 });
+
+  // Observe video showcase
+  ['video-title', 'video-desc', 'video-container'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) obs.observe(el);
+  });
+
+  // Observe section headers
+  ['section-title', 'section-desc'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) obs.observe(el);
+  });
+
+  // Observe all planet cards
+  document.querySelectorAll('.planet-card').forEach(card => obs.observe(card));
+
+  // Observe script section
+  ['script-title', 'script-desc', 'code-container'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) obs.observe(el);
+  });
+
+  // Observe stats and footer
+  ['stats-overview', 'footer'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) obs.observe(el);
+  });
 </script>
 </body>
 </html>

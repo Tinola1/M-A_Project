@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rotoscope — Ybrahim</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -92,6 +92,7 @@ nav.visible{opacity:1;transform:translateY(0);}
 /* ── FRAMES ── */
 .frames-section{position:relative;z-index:2;padding:5rem 3rem;border-top:1px solid var(--border);}
 .section-label{
+  display: block;
   font-size:0.55rem;letter-spacing:0.28em;text-transform:uppercase;
   color:var(--muted);margin-bottom:3rem;
   opacity:0;transform:translateY(10px);
@@ -368,7 +369,7 @@ footer.visible{opacity:1;transform:translateY(0);}
 </div>
 
 <section class="frames-section">
-  <p class="section-label" id="frames-label">Frames</p>
+  <h2 class="section-label" id="frames-label">Frames</h2>
   <div class="frame-grid" id="frame-grid">
     <div class="frame-cell">
       <div class="frame-cell-empty">
@@ -423,12 +424,10 @@ footer.visible{opacity:1;transform:translateY(0);}
   <div class="info-stat"><label>Project</label><div class="val">01</div></div>
 </div>
 
-<!-- ── WEEKS PROGRESS GRID ── -->
 <div class="weeks-container" id="weeks-container">
   <h2 class="weeks-grid-title" id="weeks-title">Weekly Progress</h2>
   <div class="weeks-grid" id="weeks-grid">
     
-    <!-- Week 1 -->
     <div class="week-card">
       <span class="week-badge">Week 1</span>
       <h3 class="week-card-title">Rotoscope PL1</h3>
@@ -450,7 +449,6 @@ footer.visible{opacity:1;transform:translateY(0);}
       </a>
     </div>
 
-    <!-- Week 2 -->
     <div class="week-card">
       <span class="week-badge">Week 2</span>
       <h3 class="week-card-title">Rotoscope PL2</h3>
@@ -472,7 +470,6 @@ footer.visible{opacity:1;transform:translateY(0);}
       </a>
     </div>
 
-    <!-- Week 3 -->
     <div class="week-card">
       <span class="week-badge">Week 3</span>
       <h3 class="week-card-title">Rotoscope PL3</h3>
@@ -497,7 +494,6 @@ footer.visible{opacity:1;transform:translateY(0);}
   </div>
 </div>
 
-<!-- ── SOURCE REFERENCE ── -->
 <div class="source-section" id="source-section">
   <div class="source-header">
     <span class="source-badge">Source</span>

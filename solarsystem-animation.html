@@ -1027,16 +1027,18 @@ footer.visible { opacity: 1; transform: translateY(0); }
 
   <!-- LIGHTBOX -->
   <div class="tex-lightbox" id="tex-lightbox" onclick="closeTexPreview()">
-    <div class="tex-lightbox-inner" onclick="event.stopPropagation()">
-      <button class="tex-lb-close" onclick="closeTexPreview()">✕</button>
-      <div class="tex-lb-img-wrap"><img id="tex-lb-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E" alt=""></div>
-      <div class="tex-lb-foot">
-        <span id="tex-lb-name" class="tex-lb-name"></span>
-        <a id="tex-lb-dl" class="tex-lb-dl-btn" href="" download="" target="_blank">↓ Download</a>
-      </div>
+  <div class="tex-lightbox-inner" onclick="event.stopPropagation()">
+    <button class="tex-lb-close" onclick="closeTexPreview()">✕</button>
+    <div class="tex-lb-img-wrap">
+      <img id="tex-lb-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg==" alt="">
+    </div>
+    <div class="tex-lb-foot">
+      <span id="tex-lb-name" class="tex-lb-name"></span>
+      <a id="tex-lb-dl" class="tex-lb-dl-btn" href="" download="" target="_blank">↓ Download</a>
     </div>
   </div>
 </div>
+
 
 <!-- BLENDER SCRIPT -->
 <div class="code-section">

@@ -1325,7 +1325,7 @@ def kf_loc_rot(ob, frame):
 
 def force_cam_marker(cam_ob, frame):
     scene = bpy.context.scene
-    for m in [m for m in scene.timeline_markers if m.frame == frame]:
+    for m in [m for m in scene.timeline_markers if m.frame === frame]:
         scene.timeline_markers.remove(m)
     mk = scene.timeline_markers.new(name=cam_ob.name, frame=frame)
     mk.camera = cam_ob

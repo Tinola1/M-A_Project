@@ -497,4 +497,71 @@ footer.visible{opacity:1;transform:translateY(0);}
 <div class="source-section" id="source-section">
   <div class="source-header">
     <span class="source-badge">Source</span>
-    <div class=
+    <div class="source-title">Reference Footage <span>/ Original Video</span></div>
+  </div>
+
+  <div class="video-wrap">
+    <iframe
+      src="https://www.youtube.com/embed/XmsuKrjB3SI?rel=0&modestbranding=1&color=white"
+      title="Rotoscope Reference — Source Footage"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <div class="credits-strip">
+    <div class="credit-block">
+      <label>Video Credit</label>
+      <div class="credit-val">Original Creator</div>
+      <div class="credit-note">Source footage used as rotoscoping reference. All rights belong to the original owner.</div>
+      <a class="credit-link" href="https://youtu.be/XmsuKrjB3SI?si=rHhlIJDdUa12ypTf" target="_blank" rel="noopener noreferrer">
+        <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/></svg>
+        View on YouTube
+      </a>
+    </div>
+    <div class="credit-block">
+      <label>Usage</label>
+      <div class="credit-val">Educational</div>
+      <div class="credit-note">Referenced solely for animation study and academic practice purposes.</div>
+    </div>
+    <div class="credit-block">
+      <label>Rotoscoping by</label>
+      <div class="credit-val">Ybrahim A. Calvo</div>
+      <div class="credit-note">Frame-by-frame drawing and digital line work over the reference footage.</div>
+    </div>
+  </div>
+</div>
+
+<div class="status-section" id="status-section">
+  <span class="status-tag">In Development</span>
+  <div class="status-text">
+    <h2>More weeks coming soon.</h2>
+    <p>The full rotoscope sequence is being built week by week. Check back for Week 4 and beyond as the animation progresses.</p>
+  </div>
+</div>
+
+<footer id="footer">
+  <span>© 2025 Ybrahim Alexander R. Calvo</span>
+  <span>Rotoscope — 01</span>
+</footer>
+
+<script>
+window.addEventListener('DOMContentLoaded',()=>{
+  setTimeout(()=>document.getElementById('main-nav').classList.add('visible'),50);
+  document.getElementById('pg-label').classList.add('visible');
+  document.querySelectorAll('.hero-line-inner').forEach(el=>el.classList.add('visible'));
+  document.getElementById('hero-right').classList.add('visible');
+});
+
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}
+  });
+},{threshold:0.08});
+
+['frames-label','frame-grid','info-row','weeks-title','weeks-grid','source-section','status-section','footer'].forEach(id=>{
+  const el=document.getElementById(id);if(el)obs.observe(el);
+});
+</script>
+</body>
+</html>

@@ -180,6 +180,11 @@ nav.visible{opacity:1;transform:translateY(0);}
   white-space:nowrap;
 }
 
+.week-badge.final{
+  background: linear-gradient(90deg,#c23b22,#e8883a);
+  color:var(--bg);
+}
+
 .week-card-title{
   font-family:'Cormorant Garamond',serif;
   font-size:1.1rem;
@@ -296,6 +301,135 @@ nav.visible{opacity:1;transform:translateY(0);}
 }
 .status-text p{font-size:0.68rem;line-height:1.9;color:var(--muted);max-width:380px;}
 
+/* ── APPS USED ── */
+.apps-section{
+  position:relative;z-index:2;
+  padding:5rem 3rem;
+  border-top:1px solid var(--border);
+  opacity:0;transform:translateY(20px);
+  transition:opacity 0.7s ease,transform 0.7s ease;
+}
+.apps-section.visible{opacity:1;transform:translateY(0);}
+.apps-header{
+  margin-bottom:3rem;
+}
+.apps-header-label{
+  font-size:0.55rem;letter-spacing:0.28em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-bottom:0.8rem;
+}
+.apps-header h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.6rem,3.5vw,2.8rem);
+  font-weight:300;color:var(--ink);
+}
+.apps-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:1px;background:var(--mid);border:1px solid var(--mid);
+  max-width:700px;
+}
+.app-card{
+  background:var(--bg);padding:2rem;
+  display:flex;align-items:center;gap:1.5rem;
+  transition:background 0.3s ease;
+}
+.app-card:hover{background:var(--surface);}
+.app-icon{
+  width:64px;height:64px;flex-shrink:0;
+  border-radius:14px;overflow:hidden;
+  border:1px solid var(--border);
+}
+.app-icon img{width:100%;height:100%;object-fit:cover;}
+.app-info{}
+.app-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem;font-weight:400;color:var(--ink);
+  margin-bottom:0.3rem;
+}
+.app-desc{font-size:0.52rem;letter-spacing:0.1em;color:var(--muted);line-height:1.8;}
+
+/* ── TUTORIAL SECTION ── */
+.tutorial-section{
+  position:relative;z-index:2;
+  padding:5rem 3rem;
+  border-top:1px solid var(--border);
+  opacity:0;transform:translateY(24px);
+  transition:opacity 0.8s ease,transform 0.8s ease;
+}
+.tutorial-section.visible{opacity:1;transform:translateY(0);}
+
+.tutorial-header{margin-bottom:3.5rem;}
+.tutorial-header-label{
+  font-size:0.55rem;letter-spacing:0.28em;text-transform:uppercase;
+  color:var(--accent);display:block;margin-bottom:0.8rem;
+}
+.tutorial-header h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.6rem,3.5vw,2.8rem);
+  font-weight:300;color:var(--ink);
+}
+.tutorial-header p{
+  font-size:0.65rem;line-height:2;color:var(--muted);
+  max-width:500px;margin-top:0.8rem;
+}
+
+.tutorial-steps{
+  display:flex;flex-direction:column;gap:0;
+}
+
+.tutorial-step{
+  display:grid;
+  grid-template-columns:80px 1fr 1fr;
+  gap:0;
+  border-top:1px solid var(--border);
+  align-items:stretch;
+}
+.tutorial-step:last-child{border-bottom:1px solid var(--border);}
+
+.step-num-col{
+  padding:2rem 1.5rem;
+  border-right:1px solid var(--border);
+  display:flex;align-items:flex-start;justify-content:center;
+}
+.step-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.8rem;font-weight:300;
+  color:var(--mid);line-height:1;
+}
+
+.step-content-col{
+  padding:2rem 2.5rem;
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;justify-content:center;
+}
+.step-label{
+  font-size:0.48rem;letter-spacing:0.24em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:0.6rem;
+}
+.step-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.05rem;font-weight:400;color:var(--ink);
+  line-height:1.4;margin-bottom:0.5rem;
+}
+.step-desc{
+  font-size:0.58rem;line-height:1.9;color:var(--muted);
+}
+
+.step-img-col{
+  overflow:hidden;
+  max-height:260px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--surface);
+}
+.step-img-col img{
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  transition:transform 0.5s ease;
+}
+.tutorial-step:hover .step-img-col img{transform:scale(1.02);}
+
 /* ── FOOTER ── */
 footer{
   position:relative;z-index:2;padding:1.5rem 3rem;
@@ -309,6 +443,8 @@ footer.visible{opacity:1;transform:translateY(0);}
 
 @media(max-width:1024px){
   .weeks-grid{grid-template-columns:repeat(2,1fr);gap:1.5rem;}
+  .tutorial-step{grid-template-columns:60px 1fr;}
+  .step-img-col{display:none;}
 }
 
 @media(max-width:680px){
@@ -320,8 +456,11 @@ footer.visible{opacity:1;transform:translateY(0);}
   .credits-strip{grid-template-columns:1fr;}
   .source-header{grid-template-columns:1fr;gap:0.8rem;}
   .weeks-grid{grid-template-columns:1fr;}
+  .apps-grid{grid-template-columns:1fr;max-width:100%;}
+  .tutorial-step{grid-template-columns:50px 1fr;}
+  .step-img-col{display:none;}
   nav{padding:1rem 1.5rem;}
-  .frames-section,.status-section,.info-row,.weeks-container,.source-section,footer{padding-left:1.5rem;padding-right:1.5rem;}
+  .frames-section,.status-section,.info-row,.weeks-container,.source-section,.tutorial-section,.apps-section,footer{padding-left:1.5rem;padding-right:1.5rem;}
 }
 </style>
 </head>
@@ -424,6 +563,143 @@ footer.visible{opacity:1;transform:translateY(0);}
   <div class="info-stat"><label>Project</label><div class="val">01</div></div>
 </div>
 
+<!-- ── APPS USED ── -->
+<section class="apps-section" id="apps-section">
+  <div class="apps-header">
+    <span class="apps-header-label">Tools</span>
+    <h2>Apps Used</h2>
+  </div>
+  <div class="apps-grid">
+    <div class="app-card">
+      <div class="app-icon">
+        <img src="flipaclip-icon.webp" alt="FlipaClip icon">
+      </div>
+      <div class="app-info">
+        <div class="app-name">FlipaClip</div>
+        <div class="app-desc">Frame-by-frame animation app used for rotoscoping over reference footage.</div>
+      </div>
+    </div>
+    <div class="app-card">
+      <div class="app-icon">
+        <img src="capcut-icon.png" alt="CapCut icon">
+      </div>
+      <div class="app-info">
+        <div class="app-name">CapCut</div>
+        <div class="app-desc">Video editing app used for compiling and finalizing the animation sequences.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TUTORIAL ── -->
+<section class="tutorial-section" id="tutorial-section">
+  <div class="tutorial-header">
+    <span class="tutorial-header-label">Guide</span>
+    <h2>How to Use FlipaClip</h2>
+    <p>A step-by-step walkthrough for setting up and executing rotoscope animation using FlipaClip on mobile.</p>
+  </div>
+
+  <div class="tutorial-steps">
+
+    <div class="tutorial-step">
+      <div class="step-num-col"><span class="step-num">01</span></div>
+      <div class="step-content-col">
+        <span class="step-label">Install</span>
+        <div class="step-title">Go to the Play Store and install FlipaClip</div>
+        <p class="step-desc">Search for "FlipaClip" in the Google Play Store and tap Install. The app is free with optional in-app purchases.</p>
+      </div>
+      <div class="step-img-col">
+        <img src="step1.jpg" alt="Step 1 — Install FlipaClip from Play Store">
+      </div>
+    </div>
+
+    <div class="tutorial-step">
+      <div class="step-num-col"><span class="step-num">02</span></div>
+      <div class="step-content-col">
+        <span class="step-label">Launch</span>
+        <div class="step-title">Open FlipaClip after installing</div>
+        <p class="step-desc">Once installed, open the app. You'll land on the Projects home screen where all your animations are listed.</p>
+      </div>
+      <div class="step-img-col">
+        <img src="step2.jpg" alt="Step 2 — Open FlipaClip">
+      </div>
+    </div>
+
+    <div class="tutorial-step">
+      <div class="step-num-col"><span class="step-num">03</span></div>
+      <div class="step-content-col">
+        <span class="step-label">Create</span>
+        <div class="step-title">Tap the Plus icon to create a new animation</div>
+        <p class="step-desc">Press the "+" button at the bottom center of the home screen to start a new project.</p>
+      </div>
+      <div class="step-img-col">
+        <img src="step3.jpg" alt="Step 3 — Tap Plus to create animation">
+      </div>
+    </div>
+
+    <div class="tutorial-step">
+      <div class="step-num-col"><span class="step-num">04</span></div>
+      <div class="step-content-col">
+        <span class="step-label">Configure</span>
+        <div class="step-title">Choose canvas size, FPS, and name your project</div>
+        <p class="step-desc">Set your canvas size (e.g. YouTube 1080p), choose frames per second (30 FPS recommended for smooth motion), and give your project a name. Then tap Create Project.</p>
+      </div>
+      <div class="step-img-col">
+        <img src="step4.jpg" alt="Step 4 — Configure project settings">
+      </div>
+    </div>
+
+    <div class="tutorial-step">
+      <div class="step-num-col"><span class="step-num">05</span></div>
+      <div class="step-content-col">
+        <span class="step-label">Import</span>
+        <div class="step-title">Tap the 3 dots and select "Add video"</div>
+        <p class="step-desc">Inside the project editor, tap the three-dot menu in the upper right corner. Select "Add video" to import your reference footage as a background layer.</p>
+      </div>
+      <div class="step-img-col">
+        <img src="step5.jpg" alt="Step 5 — Add video via 3 dots menu">
+      </div>
+    </div>
+
+    <div class="tutorial-step">
+      <div class="step-num-col"><span class="step-num">06</span></div>
+      <div class="step-content-col">
+        <span class="step-label">Select</span>
+        <div class="step-title">Choose your preferred reference video</div>
+        <p class="step-desc">Browse your device's gallery or Google Photos. Pick the dance or motion video you want to trace over for rotoscoping.</p>
+      </div>
+      <div class="step-img-col">
+        <img src="step6.jpg" alt="Step 6 — Choose reference video">
+      </div>
+    </div>
+
+    <div class="tutorial-step">
+      <div class="step-num-col"><span class="step-num">07</span></div>
+      <div class="step-content-col">
+        <span class="step-label">Trim</span>
+        <div class="step-title">Adjust the video to your preferred time range</div>
+        <p class="step-desc">Use the timeline trimmer to select the segment of the video you'll be animating. Confirm when ready to import it into the canvas.</p>
+      </div>
+      <div class="step-img-col">
+        <img src="step7.jpg" alt="Step 7 — Adjust video time range">
+      </div>
+    </div>
+
+    <div class="tutorial-step">
+      <div class="step-num-col"><span class="step-num">08</span></div>
+      <div class="step-content-col">
+        <span class="step-label">Animate</span>
+        <div class="step-title">Select the pen tool and animate frame by frame</div>
+        <p class="step-desc">Tap the pen icon on the right toolbar. Trace the figure on each frame, advancing through the timeline one frame at a time. This is the core rotoscoping process — patience and consistency are key.</p>
+      </div>
+      <div class="step-img-col">
+        <img src="step1.jpg" alt="Step 8 — Draw frame by frame">
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <div class="weeks-container" id="weeks-container">
   <h2 class="weeks-grid-title" id="weeks-title">Weekly Progress</h2>
   <div class="weeks-grid" id="weeks-grid">
@@ -432,147 +708,131 @@ footer.visible{opacity:1;transform:translateY(0);}
       <span class="week-badge">Week 1</span>
       <h3 class="week-card-title">Rotoscope PL1</h3>
       <div class="video-wrap">
-        <iframe
-          src="https://www.youtube.com/embed/WEnUM7BWVTI?rel=0&modestbranding=1&color=white"
-          title="Rotoscope — Week 1 Progress"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen>
-        </iframe>
+        <iframe src="https://www.youtube.com/embed/WEnUM7BWVTI?rel=0&modestbranding=1&color=white" title="Rotoscope — Week 1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       </div>
-      <p class="week-card-meta">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/></svg>
-        Early Draft
-      </p>
-      <a class="credit-link" href="https://youtu.be/WEnUM7BWVTI?si=xFnQ2I1gF-w9iEMd" target="_blank" rel="noopener noreferrer">
-        <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/></svg>
-        Watch
-      </a>
+      <p class="week-card-meta"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/></svg>Early Draft</p>
+      <a class="credit-link" href="https://youtu.be/WEnUM7BWVTI?si=xFnQ2I1gF-w9iEMd" target="_blank" rel="noopener noreferrer"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/></svg>Watch</a>
     </div>
 
     <div class="week-card">
       <span class="week-badge">Week 2</span>
       <h3 class="week-card-title">Rotoscope PL2</h3>
       <div class="video-wrap">
-        <iframe
-          src="https://www.youtube.com/embed/miXBe8mtREo?rel=0&modestbranding=1&color=white"
-          title="Rotoscope — Week 2 Progress"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen>
-        </iframe>
+        <iframe src="https://www.youtube.com/embed/miXBe8mtREo?rel=0&modestbranding=1&color=white" title="Rotoscope — Week 2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       </div>
-      <p class="week-card-meta">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/></svg>
-        In Progress
-      </p>
-      <a class="credit-link" href="https://youtu.be/miXBe8mtREo?si=hBqPgPZhr149K8kl" target="_blank" rel="noopener noreferrer">
-        <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/></svg>
-        Watch
-      </a>
+      <p class="week-card-meta"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/></svg>In Progress</p>
+      <a class="credit-link" href="https://youtu.be/miXBe8mtREo?si=hBqPgPZhr149K8kl" target="_blank" rel="noopener noreferrer"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/></svg>Watch</a>
     </div>
 
     <div class="week-card">
       <span class="week-badge">Week 3</span>
       <h3 class="week-card-title">Rotoscope PL3</h3>
       <div class="video-wrap">
-        <iframe
-          src="https://www.youtube.com/embed/O9OPB3yIkXA?rel=0&modestbranding=1&color=white"
-          title="Rotoscope — Week 3 Progress"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen>
-        </iframe>
+        <iframe src="https://www.youtube.com/embed/O9OPB3yIkXA?rel=0&modestbranding=1&color=white" title="Rotoscope — Week 3" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       </div>
-      <p class="week-card-meta">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/></svg>
-        In Progress
-      </p>
-      <a class="credit-link" href="https://youtu.be/O9OPB3yIkXA" target="_blank" rel="noopener noreferrer">
-        <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/></svg>
-        Watch
-      </a>
+      <p class="week-card-meta"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/></svg>In Progress</p>
+      <a class="credit-link" href="https://youtu.be/O9OPB3yIkXA" target="_blank" rel="noopener noreferrer"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/></svg>Watch</a>
     </div>
 
     <div class="week-card">
       <span class="week-badge">Week 4</span>
       <h3 class="week-card-title">Rotoscope PL4</h3>
       <div class="video-wrap">
-        <iframe
-          src="https://www.youtube.com/embed/zlrSHeQqhLY?rel=0&modestbranding=1&color=white"
-          title="Rotoscope — Week 4 Progress"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen>
-        </iframe>
+        <iframe src="https://www.youtube.com/embed/zlrSHeQqhLY?rel=0&modestbranding=1&color=white" title="Rotoscope — Week 4" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       </div>
-      <p class="week-card-meta">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/></svg>
-        In Progress
-      </p>
-      <a class="credit-link" href="https://youtu.be/zlrSHeQqhLY" target="_blank" rel="noopener noreferrer">
-        <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/></svg>
-        Watch
-      </a>
+      <p class="week-card-meta"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/></svg>In Progress</p>
+      <a class="credit-link" href="https://youtu.be/zlrSHeQqhLY" target="_blank" rel="noopener noreferrer"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/></svg>Watch</a>
     </div>
 
     <div class="week-card">
       <span class="week-badge">Week 5</span>
       <h3 class="week-card-title">Rotoscope PL5</h3>
       <div class="video-wrap">
-        <iframe
-          src="https://www.youtube.com/embed/83239MIUI2M?rel=0&modestbranding=1&color=white"
-          title="Rotoscope — Week 5 Progress"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen>
-        </iframe>
+        <iframe src="https://www.youtube.com/embed/83239MIUI2M?rel=0&modestbranding=1&color=white" title="Rotoscope — Week 5" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       </div>
-      <p class="week-card-meta">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/></svg>
-        In Progress
-      </p>
-      <a class="credit-link" href="https://youtu.be/83239MIUI2M" target="_blank" rel="noopener noreferrer">
-        <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/></svg>
-        Watch
-      </a>
+      <p class="week-card-meta"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/></svg>In Progress</p>
+      <a class="credit-link" href="https://youtu.be/83239MIUI2M" target="_blank" rel="noopener noreferrer"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/></svg>Watch</a>
     </div>
 
     <div class="week-card">
       <span class="week-badge">Week 6</span>
       <h3 class="week-card-title">Rotoscope PL6</h3>
       <div class="video-wrap">
-        <iframe
-          src="https://www.youtube.com/embed/g2y42rmSEjw?rel=0&modestbranding=1&color=white"
-          title="Rotoscope — Week 6 Progress"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen>
-        </iframe>
+        <iframe src="https://www.youtube.com/embed/g2y42rmSEjw?rel=0&modestbranding=1&color=white" title="Rotoscope — Week 6" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       </div>
-      <p class="week-card-meta">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/></svg>
-        In Progress
-      </p>
-      <a class="credit-link" href="https://youtu.be/g2y42rmSEjw" target="_blank" rel="noopener noreferrer">
-        <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/></svg>
-        Watch
-      </a>
+      <p class="week-card-meta"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/></svg>In Progress</p>
+      <a class="credit-link" href="https://youtu.be/g2y42rmSEjw" target="_blank" rel="noopener noreferrer"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/></svg>Watch</a>
     </div>
 
     <div class="week-card">
       <span class="week-badge">Week 7</span>
       <h3 class="week-card-title">Rotoscope PL7</h3>
       <div class="video-wrap">
-        <iframe
-          src="https://www.youtube.com/embed/GVSKDEE_AaM?rel=0&modestbranding=1&color=white"
-          title="Rotoscope — Week 7 Progress"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen>
-        </iframe>
+        <iframe src="https://www.youtube.com/embed/GVSKDEE_AaM?rel=0&modestbranding=1&color=white" title="Rotoscope — Week 7" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       </div>
-      <p class="week-card-meta">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/></svg>
-        In Progress
-      </p>
-      <a class="credit-link" href="https://youtu.be/GVSKDEE_AaM" target="_blank" rel="noopener noreferrer">
-        <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/></svg>
-        Watch
-      </a>
+      <p class="week-card-meta"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/></svg>In Progress</p>
+      <a class="credit-link" href="https://youtu.be/GVSKDEE_AaM" target="_blank" rel="noopener noreferrer"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/></svg>Watch</a>
+    </div>
+
+    <div class="week-card">
+      <span class="week-badge">Week 8</span>
+      <h3 class="week-card-title">Rotoscope PL8</h3>
+      <div class="video-wrap">
+        <iframe src="https://www.youtube.com/embed/W_RGfRRUQ-Q?rel=0&modestbranding=1&color=white" title="Rotoscope — Week 8" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+      <p class="week-card-meta"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/></svg>In Progress</p>
+      <a class="credit-link" href="https://youtu.be/W_RGfRRUQ-Q" target="_blank" rel="noopener noreferrer"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/></svg>Watch</a>
+    </div>
+
+    <div class="week-card">
+      <span class="week-badge">Week 9</span>
+      <h3 class="week-card-title">Rotoscope PL9</h3>
+      <div class="video-wrap">
+        <iframe src="https://www.youtube.com/embed/5qzngQWGtlk?rel=0&modestbranding=1&color=white" title="Rotoscope — Week 9" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+      <p class="week-card-meta"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/></svg>In Progress</p>
+      <a class="credit-link" href="https://youtu.be/5qzngQWGtlk" target="_blank" rel="noopener noreferrer"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/></svg>Watch</a>
+    </div>
+
+    <div class="week-card">
+      <span class="week-badge">Week 10</span>
+      <h3 class="week-card-title">Rotoscope PL10</h3>
+      <div class="video-wrap">
+        <iframe src="https://www.youtube.com/embed/shdfgu-VI0M?rel=0&modestbranding=1&color=white" title="Rotoscope — Week 10" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+      <p class="week-card-meta"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/></svg>In Progress</p>
+      <a class="credit-link" href="https://youtu.be/shdfgu-VI0M" target="_blank" rel="noopener noreferrer"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/></svg>Watch</a>
+    </div>
+
+    <div class="week-card">
+      <span class="week-badge">Week 11</span>
+      <h3 class="week-card-title">Rotoscope PL11</h3>
+      <div class="video-wrap">
+        <iframe src="https://www.youtube.com/embed/x8Mej1bFws0?rel=0&modestbranding=1&color=white" title="Rotoscope — Week 11" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+      <p class="week-card-meta"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/></svg>In Progress</p>
+      <a class="credit-link" href="https://youtu.be/x8Mej1bFws0" target="_blank" rel="noopener noreferrer"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/></svg>Watch</a>
+    </div>
+
+    <div class="week-card">
+      <span class="week-badge">Week 12</span>
+      <h3 class="week-card-title">Rotoscope PL12</h3>
+      <div class="video-wrap">
+        <iframe src="https://www.youtube.com/embed/1Ot-uBc_Cnw?rel=0&modestbranding=1&color=white" title="Rotoscope — Week 12" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+      <p class="week-card-meta"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/></svg>In Progress</p>
+      <a class="credit-link" href="https://youtu.be/1Ot-uBc_Cnw" target="_blank" rel="noopener noreferrer"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/></svg>Watch</a>
+    </div>
+
+    <!-- Final 1-minute video — spans full width -->
+    <div class="week-card" style="grid-column:1/-1;border-color:var(--accent);background:var(--surface);">
+      <span class="week-badge final">Final Cut</span>
+      <h3 class="week-card-title" style="font-size:1.4rem;">Rotoscope — 1 Minute Video</h3>
+      <div class="video-wrap">
+        <iframe src="https://www.youtube.com/embed/7oxM3D60Syo?rel=0&modestbranding=1&color=white" title="Rotoscope Final 1 Minute Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+      <p class="week-card-meta"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#c23b22" stroke-width="1.5"/></svg>Complete Sequence</p>
+      <a class="credit-link" href="https://youtu.be/7oxM3D60Syo" target="_blank" rel="noopener noreferrer"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 8L8 1M8 1H3M8 1V6" stroke="currentColor" stroke-width="1.2"/></svg>Watch Full Video</a>
     </div>
 
   </div>
@@ -585,12 +845,7 @@ footer.visible{opacity:1;transform:translateY(0);}
   </div>
 
   <div class="video-wrap">
-    <iframe
-      src="https://www.youtube.com/embed/XmsuKrjB3SI?rel=0&modestbranding=1&color=white"
-      title="Rotoscope Reference — Source Footage"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen>
-    </iframe>
+    <iframe src="https://www.youtube.com/embed/XmsuKrjB3SI?rel=0&modestbranding=1&color=white" title="Rotoscope Reference — Source Footage" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
   </div>
 
   <div class="credits-strip">
@@ -617,10 +872,10 @@ footer.visible{opacity:1;transform:translateY(0);}
 </div>
 
 <div class="status-section" id="status-section">
-  <span class="status-tag">In Development</span>
+  <span class="status-tag">Complete</span>
   <div class="status-text">
-    <h2>More weeks coming soon.</h2>
-    <p>The full rotoscope sequence is being built week by week. Check back for Week 8 and beyond as the animation progresses.</p>
+    <h2>12 weeks. 1 final video.</h2>
+    <p>The full rotoscope sequence has been built week by week — from early drafts to a complete one-minute animation. The journey is documented above.</p>
   </div>
 </div>
 
@@ -643,7 +898,7 @@ const obs=new IntersectionObserver((entries)=>{
   });
 },{threshold:0.08});
 
-['frames-label','frame-grid','info-row','weeks-title','weeks-grid','source-section','status-section','footer'].forEach(id=>{
+['frames-label','frame-grid','info-row','apps-section','tutorial-section','weeks-title','weeks-grid','source-section','status-section','footer'].forEach(id=>{
   const el=document.getElementById(id);if(el)obs.observe(el);
 });
 </script>

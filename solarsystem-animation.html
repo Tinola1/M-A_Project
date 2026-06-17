@@ -480,6 +480,59 @@ footer.visible { opacity: 1; transform: translateY(0); }
   .tex-assets-section { padding: 0 2rem 4rem; }
   .tex-thumbs { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: .7rem; }
 }
+  /* PROJECT DETAILS SECTION */
+.project-details-section { position: relative; z-index: 2; border-top: 1px solid var(--border); padding: 0 4rem 5rem; }
+.pd-rule { display: flex; align-items: center; gap: 1.5rem; padding: 2.5rem 0 0; font-size: .52rem; letter-spacing: .32em; text-transform: uppercase; color: var(--muted); }
+.pd-rule::before, .pd-rule::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.pd-inner { max-width: 1000px; margin: 0 auto; padding-top: 3.5rem; }
+.pd-header { text-align: center; margin-bottom: 3rem; }
+.pd-eyebrow { font-size: .6rem; letter-spacing: .22em; text-transform: uppercase; color: var(--accent2); margin-bottom: .8rem; }
+.pd-heading { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,4.5vw,3.2rem); font-weight: 400; color: var(--ink); margin-bottom: .9rem; }
+.pd-desc { font-size: .65rem; color: var(--muted); line-height: 1.75; max-width: 560px; margin: 0 auto; }
+.pd-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 1.5rem; }
+.pd-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.8rem; transition: border-color .3s ease; }
+.pd-card:hover { border-color: var(--accent2); }
+.pd-card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; color: var(--accent2); margin-bottom: 1rem; padding-bottom: .8rem; border-bottom: 1px solid var(--border); }
+.pd-list { list-style: none; display: flex; flex-direction: column; gap: .7rem; }
+.pd-list li { font-size: .68rem; line-height: 1.6; color: var(--muted); display: flex; align-items: flex-start; gap: .55rem; }
+.pd-list li::before { content: '✦'; color: var(--accent2); font-size: .6rem; margin-top: .15rem; flex-shrink: 0; }
+.pd-tool-row { display: flex; align-items: center; gap: .55rem; }
+.pd-tool-row::before { content: none; }
+.pd-tool-icon { width: 18px; height: 18px; object-fit: contain; flex-shrink: 0; }
+.pd-list a { color: var(--accent2); text-decoration: none; border-bottom: 1px dotted rgba(74,158,255,.4); }
+.pd-list a:hover { color: var(--ink); }
+.pd-timeline { display: flex; flex-direction: column; gap: 1.1rem; }
+.pd-timeline-item { display: flex; gap: 1rem; }
+.pd-timeline-time { font-size: .58rem; letter-spacing: .1em; color: var(--accent2); white-space: nowrap; min-width: 86px; }
+.pd-timeline-body strong { color: var(--ink); font-weight: 400; }
+.pd-timeline-body p { font-size: .66rem; color: var(--muted); line-height: 1.6; margin-top: .2rem; }
+
+/* BLENDER HOW-TO SECTION */
+.howto-section { position: relative; z-index: 2; border-top: 1px solid var(--border); padding: 0 4rem 5rem; }
+.howto-rule { display: flex; align-items: center; gap: 1.5rem; padding: 2.5rem 0 0; font-size: .52rem; letter-spacing: .32em; text-transform: uppercase; color: var(--muted); }
+.howto-rule::before, .howto-rule::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.howto-inner { max-width: 1000px; margin: 0 auto; padding-top: 3.5rem; }
+.howto-header { text-align: center; margin-bottom: 3rem; }
+.howto-eyebrow { font-size: .6rem; letter-spacing: .22em; text-transform: uppercase; color: var(--accent2); margin-bottom: .8rem; display: flex; align-items: center; justify-content: center; gap: .5rem; }
+.howto-app-icon { width: 20px; height: 20px; object-fit: contain; }
+.howto-heading { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,4.5vw,3.2rem); font-weight: 400; color: var(--ink); margin-bottom: .9rem; }
+.howto-desc { font-size: .65rem; color: var(--muted); line-height: 1.75; max-width: 560px; margin: 0 auto; }
+.howto-steps { display: flex; flex-direction: column; gap: 2.4rem; margin-top: 2.5rem; }
+.howto-step { display: grid; grid-template-columns: 280px 1fr; gap: 1.8rem; align-items: center; }
+.howto-step:nth-child(even) { grid-template-columns: 1fr 280px; }
+.howto-step:nth-child(even) .howto-step-img { order: 2; }
+.howto-step-img { border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: #000; aspect-ratio: 4/3; }
+.howto-step-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.howto-step-body { display: flex; gap: 1rem; align-items: flex-start; }
+.howto-step-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--accent2); line-height: 1; flex-shrink: 0; }
+.howto-step-text p { font-size: .7rem; line-height: 1.75; color: var(--muted); }
+.howto-step-text a { color: var(--accent2); text-decoration: none; border-bottom: 1px dotted rgba(74,158,255,.4); }
+
+@media (max-width: 768px) {
+  .project-details-section, .howto-section { padding: 0 2rem 4rem; }
+  .howto-step, .howto-step:nth-child(even) { grid-template-columns: 1fr; }
+  .howto-step:nth-child(even) .howto-step-img { order: 0; }
+}
 </style>
 </head>
 <body>
@@ -1039,8 +1092,133 @@ footer.visible { opacity: 1; transform: translateY(0); }
   </div>
 </div>
 </div><!-- /tex-assets-section -->
+<!-- ═══════════════════════════════════════════
+     PROJECT DETAILS SECTION
+═══════════════════════════════════════════ -->
+<div class="project-details-section" id="project-details">
+  <div class="pd-rule"><span>Project Details</span></div>
+  <div class="pd-inner">
 
+    <div class="pd-header">
+      <p class="pd-eyebrow">Behind The Scenes</p>
+      <h2 class="pd-heading">Project Details</h2>
+      <p class="pd-desc">Tools, render settings, and the production pipeline behind this animation.</p>
+    </div>
 
+    <div class="pd-grid">
+
+      <div class="pd-card">
+        <h3 class="pd-card-title">Tools Used</h3>
+        <ul class="pd-list">
+          <li class="pd-tool-row"><img class="pd-tool-icon" src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/images/Blender.png" alt="Blender icon">Blender 3.3 (for 3D modeling and animation)</li>
+          <li>Python Scripting (for procedural generation and automation)</li>
+        </ul>
+      </div>
+
+      <div class="pd-card">
+        <h3 class="pd-card-title">Render Information</h3>
+        <ul class="pd-list">
+          <li>Render Time: Approximately 13 hours and 30 minutes</li>
+          <li>Resolution: 1920x1080 at 24fps</li>
+          <li>Total Frames: 3500 (2 minutes and 25 seconds animation)</li>
+        </ul>
+      </div>
+
+      <div class="pd-card">
+        <h3 class="pd-card-title">Key Features</h3>
+        <ul class="pd-list">
+          <li>Procedurally generated solar system with almost relative sizes</li>
+          <li>Realistic orbital mechanics with almost relative speeds</li>
+          <li>Dynamic camera movements zooming in/out between planets</li>
+          <li>Detailed planetary textures and atmospheric effects</li>
+          <li>Animated informational displays for each planet</li>
+        </ul>
+      </div>
+
+      <div class="pd-card">
+        <h3 class="pd-card-title">Texture Materials</h3>
+        <ul class="pd-list">
+          <li>High-resolution planetary textures sourced from <a href="https://www.solarsystemscope.com/textures/" target="_blank" rel="noopener">Solar System Scope's texture library</a></li>
+        </ul>
+      </div>
+
+      <div class="pd-card">
+        <h3 class="pd-card-title">Python Scripts</h3>
+        <ul class="pd-list">
+          <li>Python scripts for the Sun and each planet: <a href="https://drive.google.com/drive/folders/1eVlGBxb9bhEMnWtpwL9aerD9mC7Apojv?usp=sharing" target="_blank" rel="noopener">view on Google Drive</a></li>
+        </ul>
+      </div>
+
+      <div class="pd-card">
+        <h3 class="pd-card-title">Animation Sequence</h3>
+        <div class="pd-timeline">
+          <div class="pd-timeline-item">
+            <span class="pd-timeline-time">0–3s</span>
+            <div class="pd-timeline-body"><strong>Opening Sequence</strong><p>Camera zooms from the sun into Mercury, establishing the scale and style of the animation.</p></div>
+          </div>
+          <div class="pd-timeline-item">
+            <span class="pd-timeline-time">3s / planet</span>
+            <div class="pd-timeline-body"><strong>Planetary Tour</strong><p>Smooth transitions between each planet — Mercury to Pluto — displaying the planet's name.</p></div>
+          </div>
+          <div class="pd-timeline-item">
+            <span class="pd-timeline-time">Final 1 min</span>
+            <div class="pd-timeline-body"><strong>Solar System Overview</strong><p>Camera zooms out to show the complete solar system with all planets orbiting the sun, demonstrating their relative positions and speeds.</p></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- ═══════════════════════════════════════════
+     BLENDER PLANET TUTORIAL SECTION
+═══════════════════════════════════════════ -->
+<div class="howto-section" id="blender-howto">
+  <div class="howto-rule"><span>Tutorial</span></div>
+  <div class="howto-inner">
+
+    <div class="howto-header">
+      <p class="howto-eyebrow"><img class="howto-app-icon" src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/images/Blender.png" alt="Blender icon"> Blender Workflow</p>
+      <h2 class="howto-heading">Method to Make a Planet in Blender</h2>
+      <p class="howto-desc">A quick step-by-step walkthrough of how each planet was modeled and textured for this project.</p>
+    </div>
+
+    <div class="howto-steps">
+      <div class="howto-step">
+        <div class="howto-step-img"><img src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/images/step_1.png" alt="Step 1 — Open Blender" loading="lazy"></div>
+        <div class="howto-step-body"><span class="howto-step-num">01</span><div class="howto-step-text"><p>Open Blender.</p></div></div>
+      </div>
+      <div class="howto-step">
+        <div class="howto-step-img"><img src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/images/step_2.png" alt="Step 2 — Add a sphere" loading="lazy"></div>
+        <div class="howto-step-body"><span class="howto-step-num">02</span><div class="howto-step-text"><p>Delete the default cube and press Shift + A to create a sphere.</p></div></div>
+      </div>
+      <div class="howto-step">
+        <div class="howto-step-img"><img src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/images/step_3.png" alt="Step 3 — Shade smooth" loading="lazy"></div>
+        <div class="howto-step-body"><span class="howto-step-num">03</span><div class="howto-step-text"><p>Right-click the sphere and select Shade Smooth.</p></div></div>
+      </div>
+      <div class="howto-step">
+        <div class="howto-step-img"><img src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/images/step_4.png" alt="Step 4 — Get textures" loading="lazy"></div>
+        <div class="howto-step-body"><span class="howto-step-num">04</span><div class="howto-step-text"><p>Go to <a href="https://www.solarsystemscope.com/textures/" target="_blank" rel="noopener">solarsystemscope.com/textures</a> and download the textures you want for your planet.</p></div></div>
+      </div>
+      <div class="howto-step">
+        <div class="howto-step-img"><img src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/images/step_5.png" alt="Step 5 — Shader editor" loading="lazy"></div>
+        <div class="howto-step-body"><span class="howto-step-num">05</span><div class="howto-step-text"><p>In the upper left, click the editor type dropdown and select the Shader Editor.</p></div></div>
+      </div>
+      <div class="howto-step">
+        <div class="howto-step-img"><img src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/images/step_6.png" alt="Step 6 — Add image texture" loading="lazy"></div>
+        <div class="howto-step-body"><span class="howto-step-num">06</span><div class="howto-step-text"><p>Press Shift + A, select Image Texture, and load the textures you installed.</p></div></div>
+      </div>
+      <div class="howto-step">
+        <div class="howto-step-img"><img src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/images/step_7.png" alt="Step 7 — Combine textures" loading="lazy"></div>
+        <div class="howto-step-body"><span class="howto-step-num">07</span><div class="howto-step-text"><p>Configure your shader by combining the different texture maps.</p></div></div>
+      </div>
+      <div class="howto-step">
+        <div class="howto-step-img"><img src="https://raw.githubusercontent.com/Tinola1/M-A_Project/main/images/step_8.png" alt="Step 8 — Final result" loading="lazy"></div>
+        <div class="howto-step-body"><span class="howto-step-num">08</span><div class="howto-step-text"><p>Switch back to the 3D Viewport to see your finished planet.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- BLENDER SCRIPT -->
 <div class="code-section">

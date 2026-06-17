@@ -416,16 +416,17 @@ nav.visible{opacity:1;transform:translateY(0);}
 }
 
 .step-img-col{
-  overflow:hidden;
-  max-height:260px;
   display:flex;align-items:center;justify-content:center;
   background:var(--surface);
+  padding:1rem;
 }
 .step-img-col img{
-  width:100%;height:100%;
-  object-fit:cover;
-  object-position:center;
+  width:100%;
+  height:auto;
+  max-height:220px;
+  object-fit:contain;
   display:block;
+  border-radius:4px;
   transition:transform 0.5s ease;
 }
 .tutorial-step:hover .step-img-col img{transform:scale(1.02);}
